@@ -2,6 +2,7 @@ package collector
 
 import (
 	"bufio"
+	"context"
 	_ "embed"
 	"fmt"
 	"strings"
@@ -56,19 +57,13 @@ func (d *Deployment) Collect(ch chan<- prometheus.Metric) error {
 	// optionally, resize scanner's capacity for lines over 64K, see next example
 	for scanner.Scan() {
 		line := scanner.Text()
-		// Strip etcd prefix
-		line = strings.TrimPrefix(line, etcdPrefix)
-		line = strings.TrimRight(line, "\n")
 
-		if line == "" {
+		namespace, kind, err := parseLine(line)
+		if IsEmptyLine(err) {
 			continue
-		}
-
-		tokens := strings.Split(line, "/")
-		namespace := tokens[len(tokens)-2]
-		kind := tokens[0]
-		if len(tokens) > 3 {
-			kind = fmt.Sprintf("%s.%s", tokens[1], kind)
+		} else if err != nil {
+			d.logger.Debugf(context.Background(), "Error parsing line %q: %s", line, err)
+			continue
 		}
 
 		if _, found := grouped[kind]; !found {
@@ -100,4 +95,28 @@ func (d *Deployment) Collect(ch chan<- prometheus.Metric) error {
 func (d *Deployment) Describe(ch chan<- *prometheus.Desc) error {
 	ch <- k8sResourcesDesc
 	return nil
+}
+
+func parseLine(line string) (namespace string, kind string, err error) {
+	err = nil
+
+	// Strip etcd prefix
+	line = strings.TrimPrefix(line, etcdPrefix)
+	line = strings.TrimRight(line, "\n")
+
+	if line == "" {
+		err = microerror.Maskf(emptyLineError, "Line was empty")
+		return
+	}
+
+	tokens := strings.Split(line, "/")
+	if len(tokens) > 2 {
+		namespace = tokens[len(tokens)-2]
+	}
+	kind = tokens[0]
+	if len(tokens) > 3 {
+		kind = fmt.Sprintf("%s.%s", tokens[1], kind)
+	}
+
+	return
 }
