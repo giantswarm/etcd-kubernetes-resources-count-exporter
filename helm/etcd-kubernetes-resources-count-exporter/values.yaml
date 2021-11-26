@@ -2,7 +2,7 @@ project:
   branch: "[[ .Branch ]]"
   commit: "[[ .SHA ]]"
 image:
-  name: "quay.io/giantswarm/etcd-kubernetes-resources-count-exporter"
+  name: "giantswarm/etcd-kubernetes-resources-count-exporter"
   tag: "[[ .Version ]]"
 pod:
   user:
@@ -29,4 +29,4 @@ resource:
 
 
 registry:
-  domain: docker.io
+  domain: quay.io
