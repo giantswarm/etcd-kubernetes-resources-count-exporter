@@ -32,6 +32,13 @@ func Test_parseLine(t *testing.T) {
 			wantErr:       false,
 		},
 		{
+			name:          "Cluster Issuers",
+			line:          "/giantswarm.io/cert-manager.io/clusterissuers/letsencrypt-giantswarm",
+			wantNamespace: "Not namespaced",
+			wantKind:      "clusterissuers.cert-manager.io",
+			wantErr:       false,
+		},
+		{
 			name:          "Empty line",
 			line:          "",
 			wantNamespace: "",
