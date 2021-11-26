@@ -2,8 +2,8 @@ package collector
 
 import (
 	"bufio"
+	_ "embed"
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/giantswarm/microerror"
@@ -12,6 +12,9 @@ import (
 )
 
 const etcdPrefix = "/giantswarm.io/"
+
+//go:embed sampledata
+var sampledata string
 
 var (
 	k8sResourcesDesc = prometheus.NewDesc(
@@ -47,17 +50,9 @@ func NewEtcd(config EtcdConfig) (*Deployment, error) {
 }
 
 func (d *Deployment) Collect(ch chan<- prometheus.Metric) error {
-	path := "./sampledata"
-
-	file, err := os.Open(path)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
 	grouped := map[string]map[string]int64{}
 
-	scanner := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(strings.NewReader(sampledata))
 	// optionally, resize scanner's capacity for lines over 64K, see next example
 	for scanner.Scan() {
 		line := scanner.Text()
