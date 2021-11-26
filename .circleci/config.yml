@@ -33,7 +33,7 @@ workflows:
           name: push-exporter-to-playground-app-catalog
           app_catalog: "playground-catalog"
           app_catalog_test: "playground-test-catalog"
-          chart: "exporter"
+          chart: "etcd-kubernetes-resources-count-exporter"
           # Make sure docker image is successfully built.
           requires:
             - push-exporter-to-quay

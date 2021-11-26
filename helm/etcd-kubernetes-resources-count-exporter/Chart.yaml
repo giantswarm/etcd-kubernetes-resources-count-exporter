@@ -1,0 +1,9 @@
+name: etcd-kubernetes-resources-count-exporter
+version: [[ .Version ]]
+appVersion: [[ .AppVersion ]]
+description: Collector that exposes metrics about k8s resources stored in etcd
+home: "https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter"
+apiVersion: v1
+annotations:
+  application.giantswarm.io/team: "phoenix"
+  config.giantswarm.io/version: 1.x.x
