@@ -20,6 +20,13 @@ spec:
       labels:
         {{- include "etcd-kubernetes-resources-count-exporter.selectorLabels" . | nindent 8 }}
     spec:
+      tolerations:
+      # Tolerate master taint
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
       volumes:
       - name: {{ tpl .Values.resource.default.name  . }}-configmap
         configMap:
