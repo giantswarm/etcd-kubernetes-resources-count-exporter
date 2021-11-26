@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	MetricsNamespace = "etcd_kubernetes_resources_count"
+	MetricsNamespace = "etcd_kubernetes"
 )
 
 type SetConfig struct {

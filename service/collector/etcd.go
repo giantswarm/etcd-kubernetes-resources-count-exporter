@@ -18,10 +18,10 @@ var sampledata string
 
 var (
 	k8sResourcesDesc = prometheus.NewDesc(
-		prometheus.BuildFQName(MetricsNamespace, "k8s", "resources"),
+		prometheus.BuildFQName(MetricsNamespace, "resources", "count"),
 		"Count of kubernetes resources stored in etcd.",
 		[]string{
-			"namespce",
+			"namespace",
 			"kind",
 		},
 		nil,
