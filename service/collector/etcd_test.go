@@ -20,14 +20,14 @@ func Test_parseLine(t *testing.T) {
 		{
 			name:          "Persistent Volume",
 			line:          "/giantswarm.io/persistentvolumes/pvc-18a19af7-d1ac-40f1-b153-f3a8c24f33f0",
-			wantNamespace: "",
+			wantNamespace: "Not namespaced",
 			wantKind:      "persistentvolumes",
 			wantErr:       false,
 		},
 		{
 			name:          "Cluster Role Bindings",
 			line:          "/giantswarm.io/clusterrolebindings/akv2k8s-controller",
-			wantNamespace: "",
+			wantNamespace: "Not namespaced",
 			wantKind:      "clusterrolebindings",
 			wantErr:       false,
 		},

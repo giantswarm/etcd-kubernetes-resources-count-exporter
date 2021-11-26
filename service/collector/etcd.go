@@ -110,6 +110,7 @@ func parseLine(line string) (namespace string, kind string, err error) {
 	}
 
 	tokens := strings.Split(line, "/")
+	namespace = "Not namespaced"
 	if len(tokens) > 2 {
 		namespace = tokens[len(tokens)-2]
 	}
