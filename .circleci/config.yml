@@ -15,6 +15,7 @@ workflows:
 
       # build and push docker image to quay
       - architect/push-to-docker:
+          context: architect
           name: push-exporter-to-quay
           image: "quay.io/giantswarm/etcd-kubernetes-resources-count-exporter"
           username_envar: "QUAY_USERNAME"
@@ -28,7 +29,7 @@ workflows:
 
       # build and push helm chart to app catalog
       - architect/push-to-app-catalog:
-          name: push-exporter-to-control-plane-app-catalog
+          name: push-exporter-to-playground-app-catalog
           app_catalog: "playground-catalog"
           app_catalog_test: "playground-test-catalog"
           chart: "exporter"
