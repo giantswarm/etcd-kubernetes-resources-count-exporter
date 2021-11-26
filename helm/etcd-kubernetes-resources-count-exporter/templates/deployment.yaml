@@ -47,9 +47,6 @@ spec:
         volumeMounts:
         - name: {{ tpl .Values.resource.default.name  . }}-configmap
           mountPath: /var/run/{{ .Chart.Name }}/configmap/
-        - name: {{ tpl .Values.resource.default.name  . }}-secret
-          mountPath: /var/run/{{ .Chart.Name }}/secret/
-          readOnly: true
         - name: certs
           mountPath: /etc/ssl/certs/ca-certificates.crt
           readOnly: true
