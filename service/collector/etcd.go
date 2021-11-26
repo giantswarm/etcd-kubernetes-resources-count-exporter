@@ -25,7 +25,7 @@ var (
 	)
 )
 
-type DeploymentConfig struct {
+type EtcdConfig struct {
 	Logger micrologger.Logger
 }
 
@@ -34,7 +34,7 @@ type Deployment struct {
 }
 
 // NewEtcd exposes metrics about the number of k8s resources stored in etcd.
-func NewEtcd(config DeploymentConfig) (*Deployment, error) {
+func NewEtcd(config EtcdConfig) (*Deployment, error) {
 	if config.Logger == nil {
 		return nil, microerror.Maskf(invalidConfigError, "%T.Logger must not be empty", config)
 	}

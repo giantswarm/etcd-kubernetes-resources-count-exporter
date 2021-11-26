@@ -26,7 +26,7 @@ func NewSet(config SetConfig) (*Set, error) {
 	var collectors []collector.Interface
 
 	{
-		c := DeploymentConfig{
+		c := EtcdConfig{
 			Logger: config.Logger,
 		}
 

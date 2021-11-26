@@ -4,13 +4,11 @@ import (
 	"context"
 	"sync"
 
-	"github.com/giantswarm/k8sclient/v4/pkg/k8srestconfig"
 	"github.com/giantswarm/microendpoint/service/version"
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
 	"github.com/giantswarm/versionbundle"
 	"github.com/spf13/viper"
-	"k8s.io/client-go/rest"
 
 	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/flag"
 	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/pkg/project"
@@ -108,26 +106,4 @@ func (s *Service) Boot(ctx context.Context) {
 	s.bootOnce.Do(func() {
 		go s.operatorCollector.Boot(ctx) // nolint: errcheck
 	})
-}
-
-func buildK8sRestConfig(config Config) (*rest.Config, error) {
-	c := k8srestconfig.Config{
-		Logger: config.Logger,
-
-		Address:    config.Viper.GetString(config.Flag.Service.Kubernetes.Address),
-		InCluster:  config.Viper.GetBool(config.Flag.Service.Kubernetes.InCluster),
-		KubeConfig: config.Viper.GetString(config.Flag.Service.Kubernetes.KubeConfig),
-		TLS: k8srestconfig.ConfigTLS{
-			CAFile:  config.Viper.GetString(config.Flag.Service.Kubernetes.TLS.CAFile),
-			CrtFile: config.Viper.GetString(config.Flag.Service.Kubernetes.TLS.CrtFile),
-			KeyFile: config.Viper.GetString(config.Flag.Service.Kubernetes.TLS.KeyFile),
-		},
-	}
-
-	restConfig, err := k8srestconfig.New(c)
-	if err != nil {
-		return nil, microerror.Mask(err)
-	}
-
-	return restConfig, nil
 }
