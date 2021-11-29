@@ -1,9 +1,9 @@
 package service
 
 import (
-	"github.com/giantswarm/operatorkit/flag/service/kubernetes"
+	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/flag/service/etcd"
 )
 
 type Service struct {
-	Kubernetes kubernetes.Kubernetes
+	Etcd etcd.Etcd
 }

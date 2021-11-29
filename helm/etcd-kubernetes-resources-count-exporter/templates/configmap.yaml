@@ -13,4 +13,11 @@ data:
           server: true
       listen:
         address: 'http://0.0.0.0:8000'
-
+    service:
+      etcd:
+        endpoints: {{ .Values.etcd.endpoints }}
+        cacertpath: "{{ .Values.etcd.cacertpath }}"
+        certpath: "{{ .Values.etcd.certpath }}"
+        keypath: "{{ .Values.etcd.keypath }}"
+        dialtimeout: "{{ .Values.etcd.dialtimeout }}"
+        prefix: "{{ .Values.etcd.prefix }}"

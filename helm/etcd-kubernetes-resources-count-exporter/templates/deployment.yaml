@@ -36,7 +36,7 @@ spec:
             path: config.yaml
       - name: certs
         hostPath:
-          path: /etc/ssl/certs/ca-certificates.crt
+          path: /etc/kubernetes/ssl/etcd/
       serviceAccountName: {{ tpl .Values.resource.default.name  . }}
       securityContext:
         runAsUser: {{ .Values.pod.user.id }}
@@ -48,7 +48,7 @@ spec:
         - name: {{ tpl .Values.resource.default.name  . }}-configmap
           mountPath: /var/run/{{ .Chart.Name }}/configmap/
         - name: certs
-          mountPath: /etc/ssl/certs/ca-certificates.crt
+          mountPath: /certs
           readOnly: true
         ports:
         - name: http

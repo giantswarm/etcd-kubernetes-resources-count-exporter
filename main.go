@@ -103,6 +103,15 @@ func mainError() error {
 		}
 	}
 
+	daemonCommand := newCommand.DaemonCommand().CobraCommand()
+
+	daemonCommand.PersistentFlags().StringArray(f.Service.Etcd.Endpoints, []string{"https://127.0.0.1:2379"}, "endpoint to connect to etcd. Can be repeated multiple times for multiple endpoints. Default: https://127.0.0.1:2379")
+	daemonCommand.PersistentFlags().String(f.Service.Etcd.CaCertPath, "", "path of the CA certificate file for tls validation.")
+	daemonCommand.PersistentFlags().String(f.Service.Etcd.KeyPath, "", "path of the client key file for tls authentication.")
+	daemonCommand.PersistentFlags().String(f.Service.Etcd.CertPath, "", "path of the client certificate file for tls authentication.")
+	daemonCommand.PersistentFlags().Int(f.Service.Etcd.DialTimeout, 10, "dial timeout in seconds for connecting to etcd.")
+	daemonCommand.PersistentFlags().String(f.Service.Etcd.Prefix, "", "prefix used to store k8s data in etcd as specified in the '--etcd-prefix' flag of API server.")
+
 	err = newCommand.CobraCommand().Execute()
 	if err != nil {
 		return microerror.Mask(err)

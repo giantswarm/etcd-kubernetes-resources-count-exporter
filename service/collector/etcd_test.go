@@ -12,28 +12,28 @@ func Test_parseLine(t *testing.T) {
 	}{
 		{
 			name:          "Pod",
-			line:          "/giantswarm.io/pods/akv2k8s/akv2k8s-controller-799f4db8c4-g4ltn",
+			line:          "pods/akv2k8s/akv2k8s-controller-799f4db8c4-g4ltn",
 			wantNamespace: "akv2k8s",
 			wantKind:      "pods",
 			wantErr:       false,
 		},
 		{
 			name:          "Persistent Volume",
-			line:          "/giantswarm.io/persistentvolumes/pvc-18a19af7-d1ac-40f1-b153-f3a8c24f33f0",
+			line:          "persistentvolumes/pvc-18a19af7-d1ac-40f1-b153-f3a8c24f33f0",
 			wantNamespace: "Not namespaced",
 			wantKind:      "persistentvolumes",
 			wantErr:       false,
 		},
 		{
 			name:          "Cluster Role Bindings",
-			line:          "/giantswarm.io/clusterrolebindings/akv2k8s-controller",
+			line:          "clusterrolebindings/akv2k8s-controller",
 			wantNamespace: "Not namespaced",
 			wantKind:      "clusterrolebindings",
 			wantErr:       false,
 		},
 		{
 			name:          "Cluster Issuers",
-			line:          "/giantswarm.io/cert-manager.io/clusterissuers/letsencrypt-giantswarm",
+			line:          "cert-manager.io/clusterissuers/letsencrypt-giantswarm",
 			wantNamespace: "Not namespaced",
 			wantKind:      "clusterissuers.cert-manager.io",
 			wantErr:       false,

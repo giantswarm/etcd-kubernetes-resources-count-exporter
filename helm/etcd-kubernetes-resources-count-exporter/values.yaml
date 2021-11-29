@@ -27,6 +27,13 @@ resource:
   psp:
     name: '{{ .Release.Name | replace "." "-" | trunc 47 }}-psp'
 
-
 registry:
   domain: quay.io
+
+etcd:
+  endpoints: ["https://127.0.0.1:2379"]
+  cacertpath: "/certs/client-ca.pem"
+  certpath: "/certs/client-crt.pem"
+  keypath: "/certs/client-key.pem"
+  dialtimeout: "10"
+  prefix: "/giantswarm.io"

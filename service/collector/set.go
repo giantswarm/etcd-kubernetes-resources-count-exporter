@@ -4,6 +4,7 @@ import (
 	"github.com/giantswarm/exporterkit/collector"
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
+	"go.etcd.io/etcd/clientv3"
 )
 
 const (
@@ -11,7 +12,9 @@ const (
 )
 
 type SetConfig struct {
-	Logger micrologger.Logger
+	Logger           micrologger.Logger
+	EtcdClientConfig *clientv3.Config
+	EtcdPrefix       string
 }
 
 // Set is basically only a wrapper for the operator's collector implementations.
@@ -27,7 +30,9 @@ func NewSet(config SetConfig) (*Set, error) {
 
 	{
 		c := EtcdConfig{ //nolint
-			Logger: config.Logger,
+			Logger:           config.Logger,
+			EtcdClientConfig: config.EtcdClientConfig,
+			EtcdPrefix:       config.EtcdPrefix,
 		}
 
 		etcdCollector, err := NewEtcd(c)

@@ -1,7 +1,6 @@
 package collector
 
 import (
-	"bufio"
 	"context"
 	_ "embed"
 	"fmt"
@@ -10,12 +9,8 @@ import (
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
 	"github.com/prometheus/client_golang/prometheus"
+	"go.etcd.io/etcd/clientv3"
 )
-
-const etcdPrefix = "/giantswarm.io/"
-
-//go:embed sampledata
-var sampledata string
 
 var (
 	k8sResourcesDesc = prometheus.NewDesc(
@@ -30,33 +25,57 @@ var (
 )
 
 type EtcdConfig struct {
-	Logger micrologger.Logger
+	Logger           micrologger.Logger
+	EtcdClientConfig *clientv3.Config
+	EtcdPrefix       string
 }
 
-type Deployment struct {
-	logger micrologger.Logger
+type Etcd struct {
+	logger           micrologger.Logger
+	etcdClientConfig *clientv3.Config
+	etcdPrefix       string
 }
 
 // NewEtcd exposes metrics about the number of k8s resources stored in etcd.
-func NewEtcd(config EtcdConfig) (*Deployment, error) {
+func NewEtcd(config EtcdConfig) (*Etcd, error) {
 	if config.Logger == nil {
 		return nil, microerror.Maskf(invalidConfigError, "%T.Logger must not be empty", config)
 	}
+	if config.EtcdClientConfig == nil {
+		return nil, microerror.Maskf(invalidConfigError, "%T.EtcdClientConfig must not be empty", config)
+	}
+	if !strings.HasSuffix(config.EtcdPrefix, "/") || !strings.HasPrefix(config.EtcdPrefix, "/") {
+		return nil, microerror.Maskf(invalidConfigError, "%T.EtcdPrefix has to start and end with a '/'", config)
+	}
 
-	d := &Deployment{
-		logger: config.Logger,
+	d := &Etcd{
+		logger:           config.Logger,
+		etcdClientConfig: config.EtcdClientConfig,
+		etcdPrefix:       config.EtcdPrefix,
 	}
 
 	return d, nil
 }
 
-func (d *Deployment) Collect(ch chan<- prometheus.Metric) error {
+func (d *Etcd) Collect(ch chan<- prometheus.Metric) error {
 	grouped := map[string]map[string]int64{}
 
-	scanner := bufio.NewScanner(strings.NewReader(sampledata))
-	// optionally, resize scanner's capacity for lines over 64K, see next example
-	for scanner.Scan() {
-		line := scanner.Text()
+	cli, err := clientv3.New(*d.etcdClientConfig)
+	if err != nil {
+		return microerror.Mask(err)
+	}
+
+	defer cli.Close()
+
+	resp, err := cli.Get(context.Background(), "/", clientv3.WithPrefix(), clientv3.WithKeysOnly())
+	if err != nil {
+		return microerror.Mask(err)
+	}
+
+	for _, kv := range resp.Kvs {
+		line := string(kv.Key)
+
+		line = strings.TrimPrefix(line, d.etcdPrefix)
 
 		namespace, kind, err := parseLine(line)
 		if IsEmptyLine(err) {
@@ -71,10 +90,6 @@ func (d *Deployment) Collect(ch chan<- prometheus.Metric) error {
 		}
 
 		grouped[kind][namespace] = grouped[kind][namespace] + 1
-	}
-
-	if err := scanner.Err(); err != nil {
-		return err
 	}
 
 	for kind, namespacedCount := range grouped {
@@ -92,7 +107,7 @@ func (d *Deployment) Collect(ch chan<- prometheus.Metric) error {
 	return nil
 }
 
-func (d *Deployment) Describe(ch chan<- *prometheus.Desc) error {
+func (d *Etcd) Describe(ch chan<- *prometheus.Desc) error {
 	ch <- k8sResourcesDesc
 	return nil
 }
@@ -101,7 +116,6 @@ func parseLine(line string) (namespace string, kind string, err error) {
 	err = nil
 
 	// Strip etcd prefix
-	line = strings.TrimPrefix(line, etcdPrefix)
 	line = strings.TrimRight(line, "\n")
 
 	if line == "" {
