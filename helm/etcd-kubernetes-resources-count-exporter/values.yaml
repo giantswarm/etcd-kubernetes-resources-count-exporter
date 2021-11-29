@@ -36,4 +36,4 @@ etcd:
   certpath: "/certs/server-crt.pem"
   keypath: "/certs/server-key.pem"
   dialtimeout: "10"
-  prefix: "/giantswarm.io"
+  prefix: "/giantswarm.io/"
