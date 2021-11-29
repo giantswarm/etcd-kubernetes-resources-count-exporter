@@ -10,4 +10,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First release. 
 
-[Unreleased]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/HEAD...HEAD
+[Unreleased]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v0.0.0...HEAD
