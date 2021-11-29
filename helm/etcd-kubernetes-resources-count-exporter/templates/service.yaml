@@ -11,6 +11,6 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 8000
+  - port: {{ .Values.listenPort }}
   selector:
     {{- include "etcd-kubernetes-resources-count-exporter.selectorLabels" . | nindent 4 }}

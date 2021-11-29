@@ -20,6 +20,7 @@ spec:
       labels:
         {{- include "etcd-kubernetes-resources-count-exporter.selectorLabels" . | nindent 8 }}
     spec:
+      hostNetwork: true
       tolerations:
       # Tolerate master taint
       - key: node-role.kubernetes.io/master
@@ -52,7 +53,7 @@ spec:
           readOnly: true
         ports:
         - name: http
-          containerPort: 8000
+          containerPort: {{ .Values.listenPort }}
         args:
         - daemon
         - --config.dirs=/var/run/{{ .Chart.Name }}/configmap/
@@ -60,13 +61,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /healthz
-            port: 8000
+            port: {{ .Values.listenPort }}
           initialDelaySeconds: 15
           timeoutSeconds: 1
         readinessProbe:
           httpGet:
             path: /healthz
-            port: 8000
+            port: {{ .Values.listenPort }}
           initialDelaySeconds: 15
           timeoutSeconds: 1
         resources:

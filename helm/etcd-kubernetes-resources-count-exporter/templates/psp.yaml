@@ -27,6 +27,9 @@ spec:
     - 'configMap'
     - 'hostPath'
   allowPrivilegeEscalation: false
-  hostNetwork: false
+  hostNetwork: true
   hostIPC: false
   hostPID: false
+  hostPorts:
+    - min: {{ .Values.listenPort }}
+      max: {{ .Values.listenPort }}
