@@ -8,7 +8,6 @@ require (
 	github.com/giantswarm/microerror v0.3.0
 	github.com/giantswarm/microkit v0.2.2
 	github.com/giantswarm/micrologger v0.5.0
-	github.com/giantswarm/operatorkit v1.2.0
 	github.com/giantswarm/versionbundle v0.2.0
 	github.com/prometheus/client_golang v1.11.0
 	github.com/spf13/viper v1.7.1
@@ -22,6 +21,7 @@ require (
 	github.com/coreos/go-semver v0.3.0 // indirect
 	github.com/coreos/go-systemd v0.0.0-20190321100706-95778dfbb74e // indirect
 	github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f // indirect
+	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/fsnotify/fsnotify v1.4.7 // indirect
 	github.com/go-kit/kit v0.10.0 // indirect
 	github.com/go-logfmt/logfmt v0.5.0 // indirect
@@ -64,6 +64,7 @@ require (
 	gopkg.in/resty.v1 v1.12.0 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 	honnef.co/go/tools v0.0.1-2019.2.3 // indirect
+	sigs.k8s.io/yaml v1.2.0 // indirect
 )
 
 replace (
