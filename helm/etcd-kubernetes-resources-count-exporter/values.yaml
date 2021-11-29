@@ -32,8 +32,8 @@ registry:
 
 etcd:
   endpoints: ["https://127.0.0.1:2379"]
-  cacertpath: "/certs/client-ca.pem"
-  certpath: "/certs/client-crt.pem"
-  keypath: "/certs/client-key.pem"
+  cacertpath: "/certs/server-ca.pem"
+  certpath: "/certs/server-crt.pem"
+  keypath: "/certs/server-key.pem"
   dialtimeout: "10"
   prefix: "/giantswarm.io"
