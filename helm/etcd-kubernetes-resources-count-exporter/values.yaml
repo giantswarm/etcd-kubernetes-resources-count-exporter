@@ -39,3 +39,6 @@ etcd:
   keypath: "/certs/server-key.pem"
   dialtimeout: "10"
   prefix: "/giantswarm.io/"
+
+verticalPodAutoscaler:
+  enabled: true
