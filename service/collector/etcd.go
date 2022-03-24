@@ -144,6 +144,8 @@ func (d *Etcd) refreshCache() error {
 		}
 	}
 
+	d.cache = newCache
+
 	return nil
 }
 
