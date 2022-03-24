@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Collect data asyncronously to shorten scrape time and avoid timeouts.
+
 ## [0.2.0] - 2022-03-21
 
 ### Added

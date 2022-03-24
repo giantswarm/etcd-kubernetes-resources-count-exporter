@@ -5,6 +5,7 @@ import (
 	_ "embed"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
@@ -32,8 +33,15 @@ type EtcdConfig struct {
 
 type Etcd struct {
 	logger           micrologger.Logger
+	cache            []cacheEntry
 	etcdClientConfig *clientv3.Config
 	etcdPrefix       string
+}
+
+type cacheEntry struct {
+	count     float64
+	kind      string
+	namespace string
 }
 
 // NewEtcd exposes metrics about the number of k8s resources stored in etcd.
@@ -50,15 +58,49 @@ func NewEtcd(config EtcdConfig) (*Etcd, error) {
 
 	d := &Etcd{
 		logger:           config.Logger,
+		cache:            make([]cacheEntry, 0),
 		etcdClientConfig: config.EtcdClientConfig,
 		etcdPrefix:       config.EtcdPrefix,
 	}
+
+	go func() {
+		for {
+			err := d.refreshCache()
+
+			if err != nil {
+				d.logger.Errorf(context.Background(), err, "Error refreshing cache")
+			}
+
+			time.Sleep(30 * time.Second)
+		}
+	}()
 
 	return d, nil
 }
 
 func (d *Etcd) Collect(ch chan<- prometheus.Metric) error {
+	for _, entry := range d.cache {
+		ch <- prometheus.MustNewConstMetric(
+			k8sResourcesDesc,
+			prometheus.GaugeValue,
+			entry.count,
+			entry.namespace,
+			entry.kind,
+		)
+	}
+
+	return nil
+}
+
+func (d *Etcd) Describe(ch chan<- *prometheus.Desc) error {
+	ch <- k8sResourcesDesc
+	return nil
+}
+
+func (d *Etcd) refreshCache() error {
 	grouped := map[string]map[string]int64{}
+
+	newCache := make([]cacheEntry, 0)
 
 	cli, err := clientv3.New(*d.etcdClientConfig)
 	if err != nil {
@@ -94,21 +136,14 @@ func (d *Etcd) Collect(ch chan<- prometheus.Metric) error {
 
 	for kind, namespacedCount := range grouped {
 		for namespace, count := range namespacedCount {
-			ch <- prometheus.MustNewConstMetric(
-				k8sResourcesDesc,
-				prometheus.GaugeValue,
-				float64(count),
-				namespace,
-				kind,
-			)
+			newCache = append(newCache, cacheEntry{
+				count:     float64(count),
+				kind:      kind,
+				namespace: namespace,
+			})
 		}
 	}
 
-	return nil
-}
-
-func (d *Etcd) Describe(ch chan<- *prometheus.Desc) error {
-	ch <- k8sResourcesDesc
 	return nil
 }
 
