@@ -40,7 +40,7 @@ type cachedEvent struct {
 	namespace string
 }
 
-func NewEventsCollector(config EtcdConfig) (*Etcd, error) {
+func NewEventsCollector(config EtcdConfig) (*EventsCollector, error) {
 	if config.Logger == nil {
 		return nil, microerror.Maskf(invalidConfigError, "%T.Logger must not be empty", config)
 	}
