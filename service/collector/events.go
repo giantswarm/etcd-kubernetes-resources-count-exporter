@@ -51,7 +51,7 @@ func NewEventsCollector(config EtcdConfig) (*Etcd, error) {
 		return nil, microerror.Maskf(invalidConfigError, "%T.EtcdPrefix has to start and end with a '/'", config)
 	}
 
-	d := &EventsCollector {
+	d := &EventsCollector{
 		logger:           config.Logger,
 		cache:            make([]cachedEvent, 0),
 		etcdClientConfig: config.EtcdClientConfig,
