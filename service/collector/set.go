@@ -40,7 +40,13 @@ func NewSet(config SetConfig) (*Set, error) {
 			return nil, microerror.Mask(err)
 		}
 
+    eventCollector, err := NewEventsCollector(c)
+		if err != nil {
+			return nil, microerror.Mask(err)
+		}
+
 		collectors = append(collectors, etcdCollector)
+    collectors = append(collectors, eventCollector)
 	}
 
 	var collectorSet *collector.Set
