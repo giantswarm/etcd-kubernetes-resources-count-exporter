@@ -123,7 +123,7 @@ func (d *EventsCollector) refreshCache() error {
 			continue
 		}
 
-    fmt.Println(obj)
+		fmt.Println(obj)
 
 	}
 
