@@ -12,6 +12,7 @@ require (
 	github.com/prometheus/client_golang v1.12.1
 	github.com/spf13/viper v1.8.1
 	go.etcd.io/etcd v3.3.27+incompatible
+	k8s.io/api v0.24.0
 	k8s.io/apimachinery v0.24.0
 	k8s.io/kubectl v0.24.0
 )
@@ -66,7 +67,6 @@ require (
 	gopkg.in/ini.v1 v1.62.0 // indirect
 	gopkg.in/resty.v1 v1.12.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	k8s.io/api v0.24.0 // indirect
 	k8s.io/client-go v0.24.0 // indirect
 	k8s.io/klog/v2 v2.60.1 // indirect
 	k8s.io/utils v0.0.0-20220210201930-3a6ce19ff2f9 // indirect
