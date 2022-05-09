@@ -99,7 +99,8 @@ func New(config Config) (*Service, error) {
 				DialTimeout: time.Second * time.Duration(config.Viper.GetInt(config.Flag.Service.Etcd.DialTimeout)),
 				TLS:         tlsConfig,
 			},
-			EtcdPrefix: config.Viper.GetString(config.Flag.Service.Etcd.Prefix),
+			EtcdPrefix:   config.Viper.GetString(config.Flag.Service.Etcd.Prefix),
+			EventsPrefix: config.Viper.GetString(config.Flag.Service.Events.Prefix),
 		}
 
 		operatorCollector, err = collector.NewSet(c)

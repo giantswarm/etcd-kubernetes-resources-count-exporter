@@ -15,6 +15,7 @@ type SetConfig struct {
 	Logger           micrologger.Logger
 	EtcdClientConfig *clientv3.Config
 	EtcdPrefix       string
+	EventsPrefix     string
 }
 
 // Set is basically only a wrapper for the operator's collector implementations.
@@ -35,12 +36,18 @@ func NewSet(config SetConfig) (*Set, error) {
 			EtcdPrefix:       config.EtcdPrefix,
 		}
 
+		eventsCollectorConfig := EventsCollectorConfig{
+			Logger:           config.Logger,
+			EtcdClientConfig: config.EtcdClientConfig,
+			EventsPrefix:     config.EventsPrefix,
+		}
+
 		etcdCollector, err := NewEtcd(c)
 		if err != nil {
 			return nil, microerror.Mask(err)
 		}
 
-		eventCollector, err := NewEventsCollector(c)
+		eventCollector, err := NewEventsCollector(eventsCollectorConfig)
 		if err != nil {
 			return nil, microerror.Mask(err)
 		}

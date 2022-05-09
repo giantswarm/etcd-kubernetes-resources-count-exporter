@@ -2,7 +2,7 @@ package collector
 
 import (
 	"context"
-	"fmt"
+	"encoding/json"
 	"os"
 	"strings"
 	"time"
@@ -11,6 +11,7 @@ import (
 	"github.com/giantswarm/micrologger"
 	"github.com/prometheus/client_golang/prometheus"
 	"go.etcd.io/etcd/clientv3"
+	corev1 "k8s.io/api/core/v1"
 	jsonserializer "k8s.io/apimachinery/pkg/runtime/serializer/json"
 	"k8s.io/kubectl/pkg/scheme"
 )
@@ -22,40 +23,52 @@ var (
 		[]string{
 			"namespace",
 			"kind",
+			"objectNamespace",
+			"reason",
+			"source",
 		},
 		nil,
 	)
 )
 
+type EventsCollectorConfig struct {
+	Logger           micrologger.Logger
+	EtcdClientConfig *clientv3.Config
+	EventsPrefix     string
+}
+
 type EventsCollector struct {
 	logger           micrologger.Logger
 	cache            []cachedEvent
 	etcdClientConfig *clientv3.Config
-	etcdPrefix       string
+	eventsPrefix     string
 }
 
 type cachedEvent struct {
-	count     float64
-	kind      string
-	namespace string
+	count           float64
+	kind            string
+	namespace       string
+	objectNamespace string
+	reason          string
+	source          string
 }
 
-func NewEventsCollector(config EtcdConfig) (*EventsCollector, error) {
+func NewEventsCollector(config EventsCollectorConfig) (*EventsCollector, error) {
 	if config.Logger == nil {
 		return nil, microerror.Maskf(invalidConfigError, "%T.Logger must not be empty", config)
 	}
 	if config.EtcdClientConfig == nil {
 		return nil, microerror.Maskf(invalidConfigError, "%T.EtcdClientConfig must not be empty", config)
 	}
-	if !strings.HasSuffix(config.EtcdPrefix, "/") || !strings.HasPrefix(config.EtcdPrefix, "/") {
-		return nil, microerror.Maskf(invalidConfigError, "%T.EtcdPrefix has to start and end with a '/'", config)
+	if !strings.HasSuffix(config.EventsPrefix, "/") || !strings.HasPrefix(config.EventsPrefix, "/") {
+		return nil, microerror.Maskf(invalidConfigError, "%T.EventsPrefix has to start and end with a '/'", config)
 	}
 
 	d := &EventsCollector{
 		logger:           config.Logger,
 		cache:            make([]cachedEvent, 0),
 		etcdClientConfig: config.EtcdClientConfig,
-		etcdPrefix:       config.EtcdPrefix,
+		eventsPrefix:     config.EventsPrefix,
 	}
 
 	go func() {
@@ -81,6 +94,9 @@ func (d *EventsCollector) Collect(ch chan<- prometheus.Metric) error {
 			event.count,
 			event.namespace,
 			event.kind,
+			event.objectNamespace,
+			event.reason,
+			event.source,
 		)
 	}
 
@@ -102,7 +118,8 @@ func (d *EventsCollector) refreshCache() error {
 
 	defer cli.Close()
 
-	resp, err := cli.Get(context.Background(), "/giantswarm.io/events", clientv3.WithPrefix())
+	resp, err := cli.Get(context.Background(), d.eventsPrefix, clientv3.WithPrefix())
+
 	if err != nil {
 		return microerror.Mask(err)
 	}
@@ -123,8 +140,18 @@ func (d *EventsCollector) refreshCache() error {
 			continue
 		}
 
-		fmt.Println(obj)
+		marshalledObj, _ := json.Marshal(obj)
+		event := &corev1.Event{}
+		_ = json.Unmarshal([]byte(marshalledObj), event)
 
+		newCache = append(newCache, cachedEvent{
+			count:           float64(resp.Count),
+			kind:            event.InvolvedObject.Kind,
+			namespace:       event.Namespace,
+			objectNamespace: event.InvolvedObject.Namespace,
+			reason:          event.Reason,
+			source:          event.Source.Component,
+		})
 	}
 
 	d.cache = newCache
