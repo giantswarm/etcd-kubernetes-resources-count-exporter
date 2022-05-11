@@ -144,8 +144,8 @@ func (d *EventsCollector) refreshCache() error {
 		event := &corev1.Event{}
 		_ = json.Unmarshal([]byte(marshalledObj), event)
 
-    d.logger.Debugf(context.Background(), "Event", event)
-    d.logger.Debugf(context.Background(), "Kind", event.InvolvedObject.Kind)
+		d.logger.Debugf(context.Background(), "Event", event)
+		d.logger.Debugf(context.Background(), "Kind", event.InvolvedObject.Kind)
 
 		newCache = append(newCache, cachedEvent{
 			count:           float64(resp.Count),
