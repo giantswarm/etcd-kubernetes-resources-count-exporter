@@ -3,6 +3,7 @@ package collector
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"os"
 	"strings"
 	"time"
@@ -40,6 +41,7 @@ type EventsCollectorConfig struct {
 type EventsCollector struct {
 	logger           micrologger.Logger
 	cache            []cachedEvent
+	collected        []cachedEvent
 	etcdClientConfig *clientv3.Config
 	eventsPrefix     string
 }
@@ -88,9 +90,13 @@ func NewEventsCollector(config EventsCollectorConfig) (*EventsCollector, error) 
 
 func (d *EventsCollector) Collect(ch chan<- prometheus.Metric) error {
 	for _, event := range d.cache {
+		if d.isDuplicate(event) {
+			continue
+		}
+
 		ch <- prometheus.MustNewConstMetric(
 			eventsDesc,
-			prometheus.GaugeValue,
+			prometheus.CounterValue,
 			event.count,
 			event.namespace,
 			event.kind,
@@ -98,6 +104,8 @@ func (d *EventsCollector) Collect(ch chan<- prometheus.Metric) error {
 			event.reason,
 			event.source,
 		)
+
+		d.collected = append(d.collected, event)
 	}
 
 	return nil
@@ -106,6 +114,32 @@ func (d *EventsCollector) Collect(ch chan<- prometheus.Metric) error {
 func (d *EventsCollector) Describe(ch chan<- *prometheus.Desc) error {
 	ch <- eventsDesc
 	return nil
+}
+
+func (d *EventsCollector) isDuplicate(e cachedEvent) bool {
+	for _, event := range d.collected {
+		eventKey := fmt.Sprint(
+			event.namespace,
+			event.kind,
+			event.objectNamespace,
+			event.reason,
+			event.source,
+		)
+
+		k := fmt.Sprint(
+			e.namespace,
+			e.kind,
+			e.objectNamespace,
+			e.reason,
+			e.source,
+		)
+
+		if eventKey == k {
+			return true
+		}
+	}
+
+	return false
 }
 
 func (d *EventsCollector) refreshCache() error {
