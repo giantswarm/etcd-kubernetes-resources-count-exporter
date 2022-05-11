@@ -21,3 +21,5 @@ data:
         keypath: "{{ .Values.etcd.keypath }}"
         dialtimeout: "{{ .Values.etcd.dialtimeout }}"
         prefix: "{{ .Values.etcd.prefix }}"
+      events:
+        prefix: "{{ .Values.events.prefix }}"

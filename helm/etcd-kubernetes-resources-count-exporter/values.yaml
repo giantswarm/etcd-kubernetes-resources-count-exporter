@@ -40,5 +40,8 @@ etcd:
   dialtimeout: "10"
   prefix: "/giantswarm.io/"
 
+events:
+  prefix: "/giantswarm.io/events"
+
 verticalPodAutoscaler:
   enabled: true
