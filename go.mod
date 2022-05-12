@@ -3,6 +3,7 @@ module github.com/giantswarm/etcd-kubernetes-resources-count-exporter
 go 1.17
 
 require (
+	github.com/coreos/etcd v3.3.13+incompatible
 	github.com/giantswarm/exporterkit v0.2.1
 	github.com/giantswarm/microendpoint v0.2.0
 	github.com/giantswarm/microerror v0.3.0
@@ -20,7 +21,6 @@ require (
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
-	github.com/coreos/etcd v3.3.13+incompatible // indirect
 	github.com/coreos/go-semver v0.3.0 // indirect
 	github.com/coreos/go-systemd v0.0.0-20190321100706-95778dfbb74e // indirect
 	github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f // indirect
