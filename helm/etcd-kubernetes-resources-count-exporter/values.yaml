@@ -41,7 +41,7 @@ etcd:
   prefix: "/giantswarm.io/"
 
 events:
-  prefix: "/giantswarm.io/events"
+  prefix: "/giantswarm.io/events/"
 
 verticalPodAutoscaler:
   enabled: true

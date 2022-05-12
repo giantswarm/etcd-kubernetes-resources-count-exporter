@@ -8,11 +8,13 @@ import (
 	"strings"
 	"time"
 
+	"github.com/coreos/etcd/mvcc/mvccpb"
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
 	"github.com/prometheus/client_golang/prometheus"
 	"go.etcd.io/etcd/clientv3"
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 	jsonserializer "k8s.io/apimachinery/pkg/runtime/serializer/json"
 	"k8s.io/kubectl/pkg/scheme"
 )
@@ -41,7 +43,7 @@ type EventsCollectorConfig struct {
 type EventsCollector struct {
 	logger           micrologger.Logger
 	cache            []cachedEvent
-	collected        []cachedEvent
+	state            map[string]float64
 	etcdClientConfig *clientv3.Config
 	eventsPrefix     string
 }
@@ -69,6 +71,7 @@ func NewEventsCollector(config EventsCollectorConfig) (*EventsCollector, error) 
 	d := &EventsCollector{
 		logger:           config.Logger,
 		cache:            make([]cachedEvent, 0),
+		state:            map[string]float64{},
 		etcdClientConfig: config.EtcdClientConfig,
 		eventsPrefix:     config.EventsPrefix,
 	}
@@ -90,10 +93,6 @@ func NewEventsCollector(config EventsCollectorConfig) (*EventsCollector, error) 
 
 func (d *EventsCollector) Collect(ch chan<- prometheus.Metric) error {
 	for _, event := range d.cache {
-		if d.isDuplicate(event) {
-			continue
-		}
-
 		ch <- prometheus.MustNewConstMetric(
 			eventsDesc,
 			prometheus.CounterValue,
@@ -105,7 +104,6 @@ func (d *EventsCollector) Collect(ch chan<- prometheus.Metric) error {
 			event.source,
 		)
 
-		d.collected = append(d.collected, event)
 	}
 
 	return nil
@@ -114,32 +112,6 @@ func (d *EventsCollector) Collect(ch chan<- prometheus.Metric) error {
 func (d *EventsCollector) Describe(ch chan<- *prometheus.Desc) error {
 	ch <- eventsDesc
 	return nil
-}
-
-func (d *EventsCollector) isDuplicate(e cachedEvent) bool {
-	for _, event := range d.collected {
-		eventKey := fmt.Sprint(
-			event.namespace,
-			event.kind,
-			event.objectNamespace,
-			event.reason,
-			event.source,
-		)
-
-		k := fmt.Sprint(
-			e.namespace,
-			e.kind,
-			e.objectNamespace,
-			e.reason,
-			e.source,
-		)
-
-		if eventKey == k {
-			return true
-		}
-	}
-
-	return false
 }
 
 func (d *EventsCollector) refreshCache() error {
@@ -162,36 +134,67 @@ func (d *EventsCollector) refreshCache() error {
 	encoder := jsonserializer.NewSerializer(jsonserializer.DefaultMetaFactory, scheme.Scheme, scheme.Scheme, true)
 
 	for _, kv := range resp.Kvs {
-		obj, _, err := decoder.Decode(kv.Value, nil, nil)
-		if err != nil {
-			d.logger.Debugf(context.Background(), "WARN: unable to decode %s: %v\n", kv.Key, err)
-			continue
-		}
-
-		err = encoder.Encode(obj, os.Stdout)
-		if err != nil {
-			d.logger.Debugf(context.Background(), "WARN: unable to encode %s: %v\n", kv.Key, err)
-			continue
-		}
-
-		marshalledObj, _ := json.Marshal(obj)
-		event := &corev1.Event{}
-		_ = json.Unmarshal([]byte(marshalledObj), event)
+		event := d.getEventFromResponse(kv, decoder, encoder)
 
 		d.logger.Debugf(context.Background(), "Event", event)
-		d.logger.Debugf(context.Background(), "Kind", event.InvolvedObject.Kind)
 
-		newCache = append(newCache, cachedEvent{
-			count:           float64(resp.Count),
+		cachedEventObj := cachedEvent{
+			count:           float64(event.Count),
 			kind:            event.InvolvedObject.Kind,
 			namespace:       event.Namespace,
 			objectNamespace: event.InvolvedObject.Namespace,
 			reason:          event.Reason,
 			source:          event.Source.Component,
-		})
+		}
+
+		eventKey := getKey(cachedEventObj)
+		storedCount, aStoredCountExist := d.state[eventKey]
+
+		if !aStoredCountExist {
+			d.state[eventKey] = cachedEventObj.count
+			newCache = append(newCache, cachedEventObj)
+			continue
+		}
+
+		if cachedEventObj.count >= storedCount {
+			d.state[eventKey] = cachedEventObj.count
+			newCache = append(newCache, cachedEventObj)
+		}
+
+		d.logger.Debugf(context.Background(), "EventCounts", d.state)
 	}
 
 	d.cache = newCache
 
 	return nil
+}
+
+func getKey(event cachedEvent) string {
+	eventKey := fmt.Sprint(
+		event.namespace,
+		event.kind,
+		event.objectNamespace,
+		event.reason,
+		event.source,
+	)
+
+	return eventKey
+}
+
+func (d EventsCollector) getEventFromResponse(kv *mvccpb.KeyValue, decoder runtime.Decoder, encoder runtime.Encoder) corev1.Event {
+	obj, _, err := decoder.Decode(kv.Value, nil, nil)
+	if err != nil {
+		d.logger.Debugf(context.Background(), "WARN: unable to decode %s: %v\n", kv.Key, err)
+	}
+
+	err = encoder.Encode(obj, os.Stdout)
+	if err != nil {
+		d.logger.Debugf(context.Background(), "WARN: unable to encode %s: %v\n", kv.Key, err)
+	}
+
+	marshalledObj, _ := json.Marshal(obj)
+	event := &corev1.Event{}
+	_ = json.Unmarshal([]byte(marshalledObj), event)
+
+	return *event
 }
