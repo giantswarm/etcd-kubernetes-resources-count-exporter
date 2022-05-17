@@ -3,6 +3,7 @@ package collector
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"os"
 	"strings"
 	"time"
@@ -155,11 +156,7 @@ func (d *EventsCollector) refreshCache() error {
 			source:          event.Source.Component,
 		}
 
-		eventKey, err := getKey(cachedEventObj)
-
-		if err != nil {
-			d.logger.Debugf(context.Background(), "WARN: unable to get event metric key %s: %v\n", kv.Key, err)
-		}
+		eventKey:= getKey(cachedEventObj)
 
 		//We keep track of events that have been counted.
 		//We don't want to recounted existing events
@@ -191,11 +188,16 @@ func (d *EventsCollector) refreshCache() error {
 	return nil
 }
 
-func getKey(event cachedEvent) (string, error) {
-	event.count = 0
-	out, err := json.Marshal(event)
+func getKey(event cachedEvent) string {
+	eventKey := fmt.Sprint(
+		event.namespace,
+		event.kind,
+		event.objectNamespace,
+		event.reason,
+		event.source,
+	)
 
-	return string(out), err
+	return eventKey
 }
 
 func (d *EventsCollector) getEventFromResponse(kv *mvccpb.KeyValue, decoder runtime.Decoder, encoder runtime.Encoder) corev1.Event {
