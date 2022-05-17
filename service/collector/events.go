@@ -156,7 +156,7 @@ func (d *EventsCollector) refreshCache() error {
 			source:          event.Source.Component,
 		}
 
-		eventKey:= getKey(cachedEventObj)
+		eventKey := getKey(cachedEventObj)
 
 		//We keep track of events that have been counted.
 		//We don't want to recounted existing events
