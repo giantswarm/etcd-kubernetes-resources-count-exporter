@@ -3,7 +3,6 @@ package collector
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"os"
 	"strings"
 	"time"
@@ -40,10 +39,15 @@ type EventsCollectorConfig struct {
 	EventsPrefix     string
 }
 
+type state struct {
+	uids map[string]string
+	keys map[string]float64
+}
+
 type EventsCollector struct {
 	logger           micrologger.Logger
 	cache            []cachedEvent
-	state            map[string]float64
+	state            state
 	etcdClientConfig *clientv3.Config
 	eventsPrefix     string
 }
@@ -68,10 +72,15 @@ func NewEventsCollector(config EventsCollectorConfig) (*EventsCollector, error) 
 		return nil, microerror.Maskf(invalidConfigError, "%T.EventsPrefix has to start and end with a '/'", config)
 	}
 
+	emptyState := state{
+		uids: map[string]string{},
+		keys: map[string]float64{},
+	}
+
 	d := &EventsCollector{
 		logger:           config.Logger,
 		cache:            make([]cachedEvent, 0),
-		state:            map[string]float64{},
+		state:            emptyState,
 		etcdClientConfig: config.EtcdClientConfig,
 		eventsPrefix:     config.EventsPrefix,
 	}
@@ -103,7 +112,6 @@ func (d *EventsCollector) Collect(ch chan<- prometheus.Metric) error {
 			event.reason,
 			event.source,
 		)
-
 	}
 
 	return nil
@@ -147,19 +155,33 @@ func (d *EventsCollector) refreshCache() error {
 			source:          event.Source.Component,
 		}
 
-		eventKey := getKey(cachedEventObj)
-		storedCount, aStoredCountExist := d.state[eventKey]
+		eventKey, err := getKey(cachedEventObj)
 
-		if !aStoredCountExist {
-			d.state[eventKey] = cachedEventObj.count
+		if err != nil {
+			d.logger.Debugf(context.Background(), "WARN: unable to get event metric key %s: %v\n", kv.Key, err)
+		}
+
+		//We keep track of events that have been counted.
+		//We don't want to recounted existing events
+		if _, exists := d.state.uids[string(kv.Key)]; exists {
+			continue
+		}
+
+		d.state.uids[string(kv.Key)] = event.ObjectMeta.Name
+
+		if count, exists := d.state.keys[eventKey]; exists {
+			// We've already counted an event metric like this before. So we add to get the total
+			count = count + float64(event.Count)
+
+			cachedEventObj.count = count
+			d.state.keys[eventKey] = count
+
 			newCache = append(newCache, cachedEventObj)
 			continue
 		}
 
-		if cachedEventObj.count >= storedCount {
-			d.state[eventKey] = cachedEventObj.count
-			newCache = append(newCache, cachedEventObj)
-		}
+		d.state.keys[eventKey] = cachedEventObj.count
+		newCache = append(newCache, cachedEventObj)
 
 		d.logger.Debugf(context.Background(), "EventCounts", d.state)
 	}
@@ -169,19 +191,14 @@ func (d *EventsCollector) refreshCache() error {
 	return nil
 }
 
-func getKey(event cachedEvent) string {
-	eventKey := fmt.Sprint(
-		event.namespace,
-		event.kind,
-		event.objectNamespace,
-		event.reason,
-		event.source,
-	)
+func getKey(event cachedEvent) (string, error) {
+	event.count = 0
+	out, err := json.Marshal(event)
 
-	return eventKey
+	return string(out), err
 }
 
-func (d EventsCollector) getEventFromResponse(kv *mvccpb.KeyValue, decoder runtime.Decoder, encoder runtime.Encoder) corev1.Event {
+func (d *EventsCollector) getEventFromResponse(kv *mvccpb.KeyValue, decoder runtime.Decoder, encoder runtime.Encoder) corev1.Event {
 	obj, _, err := decoder.Decode(kv.Value, nil, nil)
 	if err != nil {
 		d.logger.Debugf(context.Background(), "WARN: unable to decode %s: %v\n", kv.Key, err)
