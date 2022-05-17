@@ -102,20 +102,44 @@ func NewEventsCollector(config EventsCollectorConfig) (*EventsCollector, error) 
 }
 
 func (d *EventsCollector) Collect(ch chan<- prometheus.Metric) error {
+	hasBeenCollected := []string{}
+
+	fmt.Println("---------------------")
 	for _, event := range d.cache {
-		ch <- prometheus.MustNewConstMetric(
-			eventsDesc,
-			prometheus.CounterValue,
-			event.count,
-			event.namespace,
-			event.kind,
-			event.objectNamespace,
-			event.reason,
-			event.source,
-		)
+		key := getKey(event)
+
+		fmt.Println(event)
+
+		if !exists(key, hasBeenCollected) {
+			fmt.Println("Collected", key)
+			ch <- prometheus.MustNewConstMetric(
+				eventsDesc,
+				prometheus.CounterValue,
+				event.count,
+				event.namespace,
+				event.kind,
+				event.objectNamespace,
+				event.reason,
+				event.source,
+			)
+		}
+
+		hasBeenCollected = append(hasBeenCollected, key)
 	}
 
+	fmt.Println("---------------------")
+
 	return nil
+}
+
+func exists(key string, keys []string) bool {
+	for _, k := range keys {
+		if k == key {
+			return true
+		}
+	}
+
+	return false
 }
 
 func (d *EventsCollector) Describe(ch chan<- *prometheus.Desc) error {
@@ -158,17 +182,10 @@ func (d *EventsCollector) refreshCache() error {
 
 		eventKey := getKey(cachedEventObj)
 
-		//We keep track of events that have been counted.
-		//We don't want to recounted existing events
-		if _, exists := d.state.uids[string(kv.Key)]; exists {
-			continue
-		}
-
-		d.state.uids[string(kv.Key)] = event.ObjectMeta.Name
-
 		if count, exists := d.state.keys[eventKey]; exists {
-			// We've already counted an event metric like this before. So we add to get the total
-			count = count + float64(event.Count)
+			if _, exists := d.state.uids[string(kv.Key)]; !exists {
+				count = count + float64(event.Count)
+			}
 
 			cachedEventObj.count = count
 			d.state.keys[eventKey] = count
@@ -177,6 +194,7 @@ func (d *EventsCollector) refreshCache() error {
 			continue
 		}
 
+		d.state.uids[string(kv.Key)] = event.ObjectMeta.Name
 		d.state.keys[eventKey] = cachedEventObj.count
 		newCache = append(newCache, cachedEventObj)
 
