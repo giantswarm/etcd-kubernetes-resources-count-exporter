@@ -41,8 +41,9 @@ type EventsCollectorConfig struct {
 }
 
 type state struct {
-	uids map[string]string
-	keys map[string]float64
+	uids               map[string]string
+	keys               map[string]float64
+	lastCollectedEvent string
 }
 
 type EventsCollector struct {
@@ -74,8 +75,9 @@ func NewEventsCollector(config EventsCollectorConfig) (*EventsCollector, error) 
 	}
 
 	emptyState := state{
-		uids: map[string]string{},
-		keys: map[string]float64{},
+		uids:               map[string]string{},
+		keys:               map[string]float64{},
+		lastCollectedEvent: "",
 	}
 
 	d := &EventsCollector{
@@ -157,7 +159,17 @@ func (d *EventsCollector) refreshCache() error {
 
 	defer cli.Close()
 
-	resp, err := cli.Get(context.Background(), d.eventsPrefix, clientv3.WithPrefix())
+	lastCollectedEventKey := d.state.lastCollectedEvent
+
+	fmt.Println("------------------------")
+	fmt.Println("Last Collected Event Key ", lastCollectedEventKey)
+	fmt.Println("------------------------")
+
+	if lastCollectedEventKey == "" {
+		lastCollectedEventKey = d.eventsPrefix
+	}
+
+	resp, err := cli.Get(context.Background(), lastCollectedEventKey, clientv3.WithFromKey(), clientv3.WithPrefix())
 
 	if err != nil {
 		return microerror.Mask(err)
@@ -167,6 +179,10 @@ func (d *EventsCollector) refreshCache() error {
 	encoder := jsonserializer.NewSerializer(jsonserializer.DefaultMetaFactory, scheme.Scheme, scheme.Scheme, true)
 
 	for _, kv := range resp.Kvs {
+		if lastCollectedEventKey == string(kv.Key) {
+			continue
+		}
+
 		event := d.getEventFromResponse(kv, decoder, encoder)
 
 		d.logger.Debugf(context.Background(), "Event", event)
@@ -180,8 +196,9 @@ func (d *EventsCollector) refreshCache() error {
 			source:          event.Source.Component,
 		}
 
-		eventKey := getKey(cachedEventObj)
+		d.state.lastCollectedEvent = string(kv.Key)
 
+		eventKey := getKey(cachedEventObj)
 		if count, exists := d.state.keys[eventKey]; exists {
 			if _, exists := d.state.uids[string(kv.Key)]; !exists {
 				count = count + float64(event.Count)
@@ -201,6 +218,9 @@ func (d *EventsCollector) refreshCache() error {
 		d.logger.Debugf(context.Background(), "EventCounts", d.state)
 	}
 
+	fmt.Println("------------------------")
+	fmt.Println("Marker ", lastCollectedEventKey)
+	fmt.Println("------------------------")
 	d.cache = newCache
 
 	return nil
