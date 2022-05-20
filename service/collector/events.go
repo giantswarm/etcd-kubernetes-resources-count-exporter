@@ -111,6 +111,14 @@ func (d *EventsCollector) Describe(ch chan<- *prometheus.Desc) error {
 	return nil
 }
 
+/**
+** Gets the list of events stored on etcd and store them in cache for collection by prometheus
+**
+** The cache used is a map as multiple unique events may have the same values for the metric labels
+** Where the key is a concatenation of the metric label values to uniquely group the events
+** And the value in the map is the count of the occurence of that event for that metric
+**
+**/
 func (d *EventsCollector) refreshCache() error {
 	newCache := make(map[string]cachedEvent)
 
