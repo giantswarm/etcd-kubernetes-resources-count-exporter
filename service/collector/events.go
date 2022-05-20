@@ -40,16 +40,9 @@ type EventsCollectorConfig struct {
 	EventsPrefix     string
 }
 
-type state struct {
-	uids               map[string]string
-	keys               map[string]float64
-	lastCollectedEvent string
-}
-
 type EventsCollector struct {
 	logger           micrologger.Logger
-	cache            []cachedEvent
-	state            state
+	cache            map[string]cachedEvent
 	etcdClientConfig *clientv3.Config
 	eventsPrefix     string
 }
@@ -74,16 +67,9 @@ func NewEventsCollector(config EventsCollectorConfig) (*EventsCollector, error) 
 		return nil, microerror.Maskf(invalidConfigError, "%T.EventsPrefix has to start and end with a '/'", config)
 	}
 
-	emptyState := state{
-		uids:               map[string]string{},
-		keys:               map[string]float64{},
-		lastCollectedEvent: "",
-	}
-
 	d := &EventsCollector{
 		logger:           config.Logger,
-		cache:            make([]cachedEvent, 0),
-		state:            emptyState,
+		cache:            make(map[string]cachedEvent),
 		etcdClientConfig: config.EtcdClientConfig,
 		eventsPrefix:     config.EventsPrefix,
 	}
@@ -104,44 +90,20 @@ func NewEventsCollector(config EventsCollectorConfig) (*EventsCollector, error) 
 }
 
 func (d *EventsCollector) Collect(ch chan<- prometheus.Metric) error {
-	hasBeenCollected := []string{}
-
-	fmt.Println("---------------------")
 	for _, event := range d.cache {
-		key := getKey(event)
-
-		fmt.Println(event)
-
-		if !exists(key, hasBeenCollected) {
-			fmt.Println("Collected", key)
-			ch <- prometheus.MustNewConstMetric(
-				eventsDesc,
-				prometheus.CounterValue,
-				event.count,
-				event.namespace,
-				event.kind,
-				event.objectNamespace,
-				event.reason,
-				event.source,
-			)
-		}
-
-		hasBeenCollected = append(hasBeenCollected, key)
+		ch <- prometheus.MustNewConstMetric(
+			eventsDesc,
+			prometheus.CounterValue,
+			event.count,
+			event.namespace,
+			event.kind,
+			event.objectNamespace,
+			event.reason,
+			event.source,
+		)
 	}
-
-	fmt.Println("---------------------")
 
 	return nil
-}
-
-func exists(key string, keys []string) bool {
-	for _, k := range keys {
-		if k == key {
-			return true
-		}
-	}
-
-	return false
 }
 
 func (d *EventsCollector) Describe(ch chan<- *prometheus.Desc) error {
@@ -150,7 +112,7 @@ func (d *EventsCollector) Describe(ch chan<- *prometheus.Desc) error {
 }
 
 func (d *EventsCollector) refreshCache() error {
-	newCache := make([]cachedEvent, 0)
+	newCache := make(map[string]cachedEvent)
 
 	cli, err := clientv3.New(*d.etcdClientConfig)
 	if err != nil {
@@ -160,7 +122,6 @@ func (d *EventsCollector) refreshCache() error {
 	defer cli.Close()
 
 	resp, err := cli.Get(context.Background(), d.eventsPrefix, clientv3.WithPrefix())
-
 	if err != nil {
 		return microerror.Mask(err)
 	}
@@ -171,8 +132,6 @@ func (d *EventsCollector) refreshCache() error {
 	for _, kv := range resp.Kvs {
 		event := d.getEventFromResponse(kv, decoder, encoder)
 
-		d.logger.Debugf(context.Background(), "Event", event)
-
 		cachedEventObj := cachedEvent{
 			count:           float64(event.Count),
 			kind:            event.InvolvedObject.Kind,
@@ -182,28 +141,15 @@ func (d *EventsCollector) refreshCache() error {
 			source:          event.Source.Component,
 		}
 
-		d.state.lastCollectedEvent = string(kv.Key)
-
 		eventKey := getKey(cachedEventObj)
-		if count, exists := d.state.keys[eventKey]; exists {
-			if _, exists := d.state.uids[string(kv.Key)]; !exists {
-				count = count + float64(event.Count)
 
-				d.state.uids[string(kv.Key)] = event.ObjectMeta.Name
-			}
-
-			cachedEventObj.count = count
-			d.state.keys[eventKey] = count
-
-			newCache = append(newCache, cachedEventObj)
-			continue
+		if e, exists := newCache[eventKey]; exists {
+			cachedEventObj.count = e.count + cachedEventObj.count
 		}
 
-		d.state.uids[string(kv.Key)] = event.ObjectMeta.Name
-		d.state.keys[eventKey] = cachedEventObj.count
-		newCache = append(newCache, cachedEventObj)
+		newCache[eventKey] = cachedEventObj
 
-		d.logger.Debugf(context.Background(), "EventCounts", d.state)
+		d.logger.Debugf(context.Background(), "Cached Event", cachedEventObj)
 	}
 
 	d.cache = newCache
