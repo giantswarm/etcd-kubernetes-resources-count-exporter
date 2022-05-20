@@ -111,6 +111,7 @@ func mainError() error {
 	daemonCommand.PersistentFlags().String(f.Service.Etcd.CertPath, "", "path of the client certificate file for tls authentication.")
 	daemonCommand.PersistentFlags().Int(f.Service.Etcd.DialTimeout, 10, "dial timeout in seconds for connecting to etcd.")
 	daemonCommand.PersistentFlags().String(f.Service.Etcd.Prefix, "", "prefix used to store k8s data in etcd as specified in the '--etcd-prefix' flag of API server.")
+	daemonCommand.PersistentFlags().String(f.Service.Events.Prefix, "", "prefix used to store event data in etcd")
 
 	err = newCommand.CobraCommand().Execute()
 	if err != nil {

@@ -77,6 +77,9 @@ func New(config Config) (*Service, error) {
 	if config.Viper.GetString(config.Flag.Service.Etcd.KeyPath) == "" {
 		return nil, microerror.Maskf(invalidConfigError, "Config.Service.Etcd.KeyPath must not be empty")
 	}
+	if config.Viper.GetString(config.Flag.Service.Events.Prefix) == "" {
+		return nil, microerror.Maskf(invalidConfigError, "Config.Service.Events.Prefix must not be empty")
+	}
 
 	var err error
 
@@ -99,7 +102,8 @@ func New(config Config) (*Service, error) {
 				DialTimeout: time.Second * time.Duration(config.Viper.GetInt(config.Flag.Service.Etcd.DialTimeout)),
 				TLS:         tlsConfig,
 			},
-			EtcdPrefix: config.Viper.GetString(config.Flag.Service.Etcd.Prefix),
+			EtcdPrefix:   config.Viper.GetString(config.Flag.Service.Etcd.Prefix),
+			EventsPrefix: config.Viper.GetString(config.Flag.Service.Events.Prefix),
 		}
 
 		operatorCollector, err = collector.NewSet(c)
