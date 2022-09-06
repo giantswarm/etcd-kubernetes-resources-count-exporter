@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Include namespaces in dotted scopes.
+
 ## [0.5.1] - 2022-08-03
 
 ### Changed
