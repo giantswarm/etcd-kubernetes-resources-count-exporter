@@ -163,19 +163,22 @@ func parseLine(line string) (namespace string, kind string, err error) {
 	// cert-manager.io/clusterissuers/letsencrypt-giantswarm
 
 	tokens := strings.Split(line, "/")
+
 	namespace = "Not namespaced"
+	kind = tokens[0]
 
 	if strings.Contains(tokens[0], ".") {
-		// the first token contains a dot, we consider this an api version.
+		// the first token contains a dot, we consider this an api version of not namespaced objects.
 		kind = fmt.Sprintf("%s.%s", tokens[1], tokens[0])
+
+		if len(tokens) > 3 {
+			namespace = tokens[2]
+		}
 		return
 	}
+
 	if len(tokens) > 2 {
-		namespace = tokens[len(tokens)-2]
-	}
-	kind = tokens[0]
-	if len(tokens) > 3 {
-		kind = fmt.Sprintf("%s.%s", tokens[1], kind)
+		namespace = tokens[1]
 	}
 
 	return

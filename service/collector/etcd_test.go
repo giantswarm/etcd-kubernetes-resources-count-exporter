@@ -39,6 +39,13 @@ func Test_parseLine(t *testing.T) {
 			wantErr:       false,
 		},
 		{
+			name:          "Certificate Requests",
+			line:          "cert-manager.io/certificaterequests/kube-system/kiam-agent-6rtrb",
+			wantNamespace: "kube-system",
+			wantKind:      "certificaterequests.cert-manager.io",
+			wantErr:       false,
+		},
+		{
 			name:          "Empty line",
 			line:          "",
 			wantNamespace: "",
