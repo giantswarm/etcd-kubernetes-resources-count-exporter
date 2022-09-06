@@ -168,7 +168,7 @@ func parseLine(line string) (namespace string, kind string, err error) {
 	kind = tokens[0]
 
 	if strings.Contains(tokens[0], ".") {
-		// the first token contains a dot, we consider this an api version of not namespaced objects.
+		// the first token contains a dot, we consider this an api version of non namespaced objects.
 		kind = fmt.Sprintf("%s.%s", tokens[1], tokens[0])
 
 		if len(tokens) > 3 {
