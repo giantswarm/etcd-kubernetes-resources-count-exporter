@@ -42,6 +42,20 @@ workflows:
             tags:
               only: /^v.*/
 
+      - architect/push-to-app-catalog:
+          context: architect
+          name: push-aexporter-to-control-plane-app-catalog
+          app_catalog: "control-plane-catalog"
+          app_catalog_test: "control-plane-test-catalog"
+          chart: "etcd-kubernetes-resources-count-exporter"
+          # Make sure docker image is successfully built.
+          requires:
+            - push-exporter-to-quay
+          filters:
+            # Trigger the job also on git tag.
+            tags:
+              only: /^v.*/
+
       # build and push helm chart to default app catalog
       - architect/push-to-app-catalog:
           context: architect
