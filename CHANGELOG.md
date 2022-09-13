@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Push to azure and AWS app collection.
+
 ## [0.5.2] - 2022-09-06
 
 ### Changed
