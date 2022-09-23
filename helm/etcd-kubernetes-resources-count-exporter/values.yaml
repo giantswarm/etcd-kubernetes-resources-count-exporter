@@ -28,7 +28,7 @@ resource:
     name: '{{ .Release.Name | replace "." "-" | trunc 47 }}-psp'
 
 registry:
-  domain: quay.io
+  domain: docker.io
 
 listenPort: 60000
 
