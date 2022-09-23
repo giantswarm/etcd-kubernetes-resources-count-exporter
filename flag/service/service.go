@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/flag/service/etcd"
-	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/flag/service/events"
+	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/v2/flag/service/etcd"
+	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/v2/flag/service/events"
 )
 
 type Service struct {

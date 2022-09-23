@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2022-09-23
+
 ### Changed
 
 - Push to azure and AWS app collection.
@@ -52,7 +54,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First release. 
 
-[Unreleased]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v0.5.2...HEAD
+[Unreleased]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v0.5.2...v1.0.0
 [0.5.2]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v0.4.0...v0.5.0
