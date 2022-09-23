@@ -1,4 +1,4 @@
-module github.com/giantswarm/etcd-kubernetes-resources-count-exporter/v2
+module github.com/giantswarm/etcd-kubernetes-resources-count-exporter
 
 go 1.17
 

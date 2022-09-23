@@ -3,7 +3,7 @@ package flag
 import (
 	"github.com/giantswarm/microkit/flag"
 
-	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/v2/flag/service"
+	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/flag/service"
 )
 
 type Flag struct {

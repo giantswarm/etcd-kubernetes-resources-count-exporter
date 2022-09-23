@@ -11,10 +11,10 @@ import (
 	"github.com/giantswarm/versionbundle"
 	"github.com/spf13/viper"
 
-	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/v2/flag"
-	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/v2/pkg/project"
-	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/v2/server"
-	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/v2/service"
+	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/flag"
+	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/pkg/project"
+	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/server"
+	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/service"
 )
 
 var (

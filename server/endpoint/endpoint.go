@@ -6,7 +6,7 @@ import (
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
 
-	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/v2/service"
+	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/service"
 )
 
 type Config struct {

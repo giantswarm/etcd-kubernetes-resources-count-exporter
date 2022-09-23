@@ -13,9 +13,9 @@ import (
 	"go.etcd.io/etcd/clientv3"
 	"go.etcd.io/etcd/pkg/transport"
 
-	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/v2/flag"
-	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/v2/pkg/project"
-	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/v2/service/collector"
+	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/flag"
+	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/pkg/project"
+	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/service/collector"
 )
 
 // Config represents the configuration used to create a new service.
