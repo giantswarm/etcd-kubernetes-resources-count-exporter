@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added the use of the runtime/default seccomp profile.
 
+### Fixed
+
+- Use ClusterIP service rather than NodePort one.
+
 ## [1.0.0] - 2022-09-23
 
 ### Changed
