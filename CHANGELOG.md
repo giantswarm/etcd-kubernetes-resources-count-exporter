@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.1] - 2023-04-20
+
 ### Fixed
 
 - Use Port 10999 for listening as the previous value was overlapping with the TCP ephemeral port range.
@@ -68,7 +70,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First release. 
 
-[Unreleased]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v0.5.2...v1.0.0
 [0.5.2]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v0.5.1...v0.5.2
