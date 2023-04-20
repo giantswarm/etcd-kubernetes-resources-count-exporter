@@ -9,7 +9,7 @@ metadata:
     prometheus.io/scrape: "true"
     giantswarm.io/monitoring: "true"
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
   - port: {{ .Values.listenPort }}
   selector:
