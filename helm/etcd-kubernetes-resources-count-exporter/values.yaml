@@ -30,7 +30,7 @@ resource:
 registry:
   domain: docker.io
 
-listenPort: 60000
+listenPort: 10999
 
 etcd:
   endpoints: ["https://127.0.0.1:2379"]

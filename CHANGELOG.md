@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Use Port 10999 for listening as the previous value was overlapping with the TCP ephemeral port range.
+
 ## [1.1.0] - 2023-04-20
 
 ### Added
