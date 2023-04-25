@@ -2,7 +2,7 @@ name: etcd-kubernetes-resources-count-exporter
 version: [[ .Version ]]
 appVersion: [[ .AppVersion ]]
 description: Collector that exposes metrics about k8s resources stored in etcd
-icon: https://s.giantswarm.io/app-icons/prometheus-operator/1/dark.svg
+icon: https://s.giantswarm.io/app-icons/prometheus/1/light.svg
 home: "https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter"
 apiVersion: v1
 annotations:
