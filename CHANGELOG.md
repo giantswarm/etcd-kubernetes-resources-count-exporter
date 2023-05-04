@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2023-05-04
+
 ### Changed
 
 - Disable PSPs for k8s 1.25 and newer.
@@ -80,7 +82,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First release. 
 
-[Unreleased]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.1.2...HEAD
+[Unreleased]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.1.2...v1.2.0
 [1.1.2]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.0.0...v1.1.0
