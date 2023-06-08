@@ -156,8 +156,6 @@ func (d *EventsCollector) refreshCache() error {
 		}
 
 		newCache[eventKey] = cachedEventObj
-
-		d.logger.Debugf(context.Background(), "Cached Event", cachedEventObj)
 	}
 
 	d.cache = newCache
