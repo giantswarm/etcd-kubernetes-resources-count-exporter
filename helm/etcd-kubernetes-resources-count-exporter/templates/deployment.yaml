@@ -44,7 +44,7 @@ spec:
             path: config.yaml
       - name: certs
         hostPath:
-          path: /etc/kubernetes/ssl/etcd/
+          path: {{ .Values.etcd.hostPath }}
       serviceAccountName: {{ tpl .Values.resource.default.name  . }}
       securityContext:
         runAsUser: {{ .Values.pod.user.id }}

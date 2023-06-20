@@ -20,6 +20,9 @@
                         "type": "string"
                     }
                 },
+                "hostPath": {
+                    "type": "string"
+                },
                 "keypath": {
                     "type": "string"
                 },

@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Configurable path for etcd certificates.
+
 ## [1.2.1] - 2023-06-08
 
 ### Removed

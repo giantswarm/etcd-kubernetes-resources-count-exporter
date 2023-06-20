@@ -33,6 +33,7 @@ registry:
 listenPort: 10999
 
 etcd:
+  hostPath: "/etc/kubernetes/ssl/etcd/"
   endpoints: ["https://127.0.0.1:2379"]
   cacertpath: "/certs/server-ca.pem"
   certpath: "/certs/server-crt.pem"
