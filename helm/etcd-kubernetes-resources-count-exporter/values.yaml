@@ -56,3 +56,8 @@ podSecurityContext:
 securityContext:
   seccompProfile:
     type: RuntimeDefault
+
+kyvernoPolicyExceptions:
+  enabled: true
+  namespace: kube-system
+
