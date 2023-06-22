@@ -4,7 +4,7 @@ apiVersion: kyverno.io/v2alpha1
 kind: PolicyException
 metadata:
   name: {{ tpl .Values.resource.default.name . }}-policy-exceptions
-  namespace: {{ .Values.kyvernoPolicyExceptions.namespace | default "kube-system" }}
+  namespace: {{ .Values.kyvernoPolicyExceptions.namespace | default "giantswarm" }}
   labels:
     {{- include "etcd-kubernetes-resources-count-exporter.labels" . | nindent 4 }}
   annotations:
@@ -14,6 +14,27 @@ spec:
   - policyName: require-run-as-non-root-user
     ruleNames:
     - run-as-non-root-user
+  - policyName: require-run-as-nonroot
+    ruleNames:
+    - run-as-non-root
+  - policyName: disallow-host-namespaces
+    ruleNames:
+    - host-namespaces
+  - policyName: disallow-host-path
+    ruleNames:
+    - host-path
+  - policyName: disallow-host-ports
+    ruleNames:
+    - host-ports-none
+  - policyName: disallow-capabilities-strict
+    ruleNames:
+    - require-drop-all
+  - policyName: restrict-volume-types
+    ruleNames:
+    - restricted-volumes
+  - policyName: restrict-sysctls
+    ruleNames:
+    - check-sysctls
   match:
     any:
     - resources:
