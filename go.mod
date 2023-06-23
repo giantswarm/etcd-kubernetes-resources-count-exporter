@@ -90,6 +90,6 @@ replace (
 	github.com/coreos/etcd => github.com/coreos/etcd v3.3.24+incompatible
 	github.com/dgrijalva/jwt-go => github.com/dgrijalva/jwt-go/v4 v4.0.0-preview1
 	github.com/gogo/protobuf => github.com/gogo/protobuf v1.3.2
-	github.com/nats-io/nats-server/v2 => github.com/nats-io/nats-server/v2 v2.9.3
+	github.com/nats-io/nats-server/v2 => github.com/nats-io/nats-server/v2 v2.9.19
 	google.golang.org/grpc => google.golang.org/grpc v1.26.0
 )
