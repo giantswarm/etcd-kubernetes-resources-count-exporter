@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Configurable path for etcd certificates.
+- Enable installation of `etcd-kubernetes-resources-count-exporter` for CAPI clusters.
 
 ## [1.2.1] - 2023-06-08
 

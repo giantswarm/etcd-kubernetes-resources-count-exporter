@@ -50,6 +50,17 @@
                 }
             }
         },
+        "kyvernoPolicyExceptions": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "namespace": {
+                    "type": "string"
+                }
+            }
+        },
         "listenPort": {
             "type": "integer"
         },
@@ -133,6 +144,9 @@
         "securityContext": {
             "type": "object",
             "properties": {
+                "allowPrivilegeEscalation": {
+                    "type": "boolean"
+                },
                 "seccompProfile": {
                     "type": "object",
                     "properties": {

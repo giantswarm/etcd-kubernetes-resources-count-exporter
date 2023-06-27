@@ -1,0 +1,58 @@
+{{- if .Values.kyvernoPolicyExceptions.enabled }}
+  {{- if .Capabilities.APIVersions.Has "kyverno.io/v2alpha1/PolicyException" -}}
+apiVersion: kyverno.io/v2alpha1
+kind: PolicyException
+metadata:
+  name: {{ tpl .Values.resource.default.name . }}-policy-exceptions
+  namespace: {{ .Values.kyvernoPolicyExceptions.namespace | default "giantswarm" }}
+  labels:
+    {{- include "etcd-kubernetes-resources-count-exporter.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": "pre-install,pre-upgrade"
+spec:
+  exceptions:
+  - policyName: require-run-as-non-root-user
+    ruleNames:
+    - run-as-non-root-user
+    - autogen-run-as-non-root-user
+  - policyName: require-run-as-nonroot
+    ruleNames:
+    - run-as-non-root
+    - autogen-run-as-non-root
+  - policyName: disallow-host-namespaces
+    ruleNames:
+    - host-namespaces
+    - autogen-host-namespaces
+  - policyName: disallow-host-path
+    ruleNames:
+    - host-path
+    - autogen-host-path
+  - policyName: disallow-host-ports
+    ruleNames:
+    - host-ports-none
+    - autogen-host-ports-none
+  - policyName: disallow-capabilities-strict
+    ruleNames:
+    - require-drop-all
+    - autogen-require-drop-all
+  - policyName: restrict-volume-types
+    ruleNames:
+    - restricted-volumes
+    - autogen-restricted-volumes
+  - policyName: restrict-sysctls
+    ruleNames:
+    - check-sysctls
+    - autogen-check-sysctls
+  match:
+    any:
+    - resources:
+        kinds:
+        - Deployment
+        - ReplicaSet
+        - Pod
+        namespaces:
+        - {{ tpl .Values.resource.default.namespace . }}
+        names:
+        - {{ tpl .Values.resource.default.name  . }}*
+  {{- end -}}
+{{- end -}}
