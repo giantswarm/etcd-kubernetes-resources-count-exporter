@@ -46,6 +46,8 @@ events:
 
 verticalPodAutoscaler:
   enabled: true
+  maxAllowed:
+    memory: "500Mi"
 
 # Add seccomp to pod security context
 podSecurityContext:
