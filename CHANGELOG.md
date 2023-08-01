@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Add Max memory (default 500Mi) for VPA.
+
 ## [1.3.0] - 2023-06-23
 
 ### Changed
