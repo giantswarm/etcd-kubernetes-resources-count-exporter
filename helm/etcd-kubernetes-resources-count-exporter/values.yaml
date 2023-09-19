@@ -44,6 +44,8 @@ etcd:
 events:
   prefix: "/giantswarm.io/events/"
 
+priorityClassName: "system-cluster-critical"
+
 verticalPodAutoscaler:
   enabled: true
   maxAllowed:
