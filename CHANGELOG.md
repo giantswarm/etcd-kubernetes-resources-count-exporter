@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Set `priorityClassName` to the deployment to mitigate scheduling issues.
+
 ## [1.4.0] - 2023-08-01
 
 ### Changed

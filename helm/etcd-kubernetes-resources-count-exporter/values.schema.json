@@ -98,6 +98,9 @@
                 }
             }
         },
+        "priorityClassName": {
+            "type": "string"
+        },
         "project": {
             "type": "object",
             "properties": {
