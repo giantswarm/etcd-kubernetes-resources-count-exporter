@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Replace condition for PSP CR installation.
--
+
 ## [1.6.0] - 2023-10-03
 
 ### Changed
