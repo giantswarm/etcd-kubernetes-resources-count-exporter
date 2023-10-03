@@ -49,7 +49,7 @@ priorityClassName: "system-cluster-critical"
 verticalPodAutoscaler:
   enabled: true
   maxAllowed:
-    memory: "500Mi"
+    memory: "2Gi"
 
 # Add seccomp to pod security context
 podSecurityContext:
