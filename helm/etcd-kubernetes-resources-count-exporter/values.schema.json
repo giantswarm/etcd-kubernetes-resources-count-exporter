@@ -39,6 +39,19 @@
                 }
             }
         },
+        "global": {
+            "type": "object",
+            "properties": {
+                "podSecurityStandards": {
+                    "type": "object",
+                    "properties": {
+                        "enforced": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            }
+        },
         "image": {
             "type": "object",
             "properties": {
@@ -165,6 +178,14 @@
             "properties": {
                 "enabled": {
                     "type": "boolean"
+                },
+                "maxAllowed": {
+                    "type": "object",
+                    "properties": {
+                        "memory": {
+                            "type": "string"
+                        }
+                    }
                 }
             }
         }
