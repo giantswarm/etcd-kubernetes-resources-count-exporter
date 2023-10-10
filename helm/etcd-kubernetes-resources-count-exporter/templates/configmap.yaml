@@ -10,7 +10,7 @@ data:
     server:
       enable:
         debug:
-          server: true
+          server: false
       listen:
         address: "http://0.0.0.0:{{ .Values.listenPort }}"
     service:
