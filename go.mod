@@ -10,8 +10,8 @@ require (
 	github.com/giantswarm/microkit v0.2.2
 	github.com/giantswarm/micrologger v1.0.0
 	github.com/giantswarm/versionbundle v0.2.0
-	github.com/prometheus/client_golang v1.16.0
-	github.com/spf13/viper v1.16.0
+	github.com/prometheus/client_golang v1.17.0
+	github.com/spf13/viper v1.17.0
 	go.etcd.io/etcd v3.3.27+incompatible
 	k8s.io/api v0.27.3
 	k8s.io/apimachinery v0.27.3
@@ -87,9 +87,9 @@ require (
 replace (
 	github.com/aws/aws-sdk-go v1.27.0 => github.com/aws/aws-sdk-go v1.34.0
 	github.com/coreos/bbolt => go.etcd.io/bbolt v1.3.7
-	github.com/coreos/etcd => github.com/coreos/etcd v3.3.24+incompatible
+	github.com/coreos/etcd => github.com/coreos/etcd v3.3.27+incompatible
 	github.com/dgrijalva/jwt-go => github.com/dgrijalva/jwt-go/v4 v4.0.0-preview1
 	github.com/gogo/protobuf => github.com/gogo/protobuf v1.3.2
-	github.com/nats-io/nats-server/v2 => github.com/nats-io/nats-server/v2 v2.9.19
-	google.golang.org/grpc => google.golang.org/grpc v1.26.0
+	github.com/nats-io/nats-server/v2 => github.com/nats-io/nats-server/v2 v2.10.3
+	google.golang.org/grpc => google.golang.org/grpc v1.59.0
 )
