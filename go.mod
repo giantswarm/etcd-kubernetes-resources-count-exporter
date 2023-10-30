@@ -4,12 +4,12 @@ go 1.19
 
 require (
 	github.com/coreos/etcd v3.3.27+incompatible
-	github.com/giantswarm/exporterkit v0.2.1
-	github.com/giantswarm/microendpoint v0.2.0
+	github.com/giantswarm/exporterkit v1.0.0
+	github.com/giantswarm/microendpoint v1.0.0
 	github.com/giantswarm/microerror v0.4.0
-	github.com/giantswarm/microkit v0.2.2
+	github.com/giantswarm/microkit v1.0.0
 	github.com/giantswarm/micrologger v1.0.0
-	github.com/giantswarm/versionbundle v0.2.0
+	github.com/giantswarm/versionbundle v1.0.0
 	github.com/prometheus/client_golang v1.16.0
 	github.com/spf13/viper v1.17.0
 	go.etcd.io/etcd v3.3.27+incompatible
@@ -21,9 +21,11 @@ require (
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
+	github.com/coreos/bbolt v0.0.0-00010101000000-000000000000 // indirect
 	github.com/coreos/go-semver v0.3.1 // indirect
 	github.com/coreos/go-systemd v0.0.0-20191104093116-d3cd4ed1dbcf // indirect
 	github.com/coreos/pkg v0.0.0-20230601102743-20bbbf26f4d8 // indirect
+	github.com/dgrijalva/jwt-go v0.0.0-00010101000000-000000000000 // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-kit/kit v0.12.0 // indirect
@@ -37,6 +39,7 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
+	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
