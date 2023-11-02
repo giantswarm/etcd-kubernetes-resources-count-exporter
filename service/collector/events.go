@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"os"
 	"strings"
 	"time"
 
@@ -179,11 +178,6 @@ func (d *EventsCollector) getEventFromResponse(kv *mvccpb.KeyValue, decoder runt
 	obj, _, err := decoder.Decode(kv.Value, nil, nil)
 	if err != nil {
 		d.logger.Debugf(context.Background(), "WARN: unable to decode %s: %v\n", kv.Key, err)
-	}
-
-	err = encoder.Encode(obj, os.Stdout)
-	if err != nil {
-		d.logger.Debugf(context.Background(), "WARN: unable to encode %s: %v\n", kv.Key, err)
 	}
 
 	marshalledObj, _ := json.Marshal(obj)
