@@ -5,11 +5,11 @@ go 1.19
 require (
 	github.com/coreos/etcd v3.3.27+incompatible
 	github.com/giantswarm/exporterkit v0.2.1
-	github.com/giantswarm/microendpoint v0.2.0
-	github.com/giantswarm/microerror v0.4.0
-	github.com/giantswarm/microkit v0.2.2
-	github.com/giantswarm/micrologger v1.0.0
-	github.com/giantswarm/versionbundle v0.2.0
+	github.com/giantswarm/microendpoint v0.3.0
+	github.com/giantswarm/microerror v0.4.1
+	github.com/giantswarm/microkit v0.3.0
+	github.com/giantswarm/micrologger v1.1.1
+	github.com/giantswarm/versionbundle v0.3.0
 	github.com/prometheus/client_golang v1.17.0
 	github.com/spf13/viper v1.17.0
 	go.etcd.io/etcd v3.3.27+incompatible
@@ -29,7 +29,7 @@ require (
 	github.com/go-kit/kit v0.12.0 // indirect
 	github.com/go-kit/log v0.2.1 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
-	github.com/go-logr/logr v1.2.4 // indirect
+	github.com/go-logr/logr v1.3.0 // indirect
 	github.com/go-stack/stack v1.8.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
