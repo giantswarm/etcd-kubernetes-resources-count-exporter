@@ -92,7 +92,7 @@ require (
 
 replace (
 	github.com/aws/aws-sdk-go v1.27.0 => github.com/aws/aws-sdk-go v1.34.0
-	github.com/coreos/bbolt => go.etcd.io/bbolt v1.3.8
+	github.com/coreos/bbolt => go.etcd.io/bbolt v1.3.9
 	github.com/coreos/etcd => github.com/coreos/etcd v3.3.27+incompatible
 	github.com/dgrijalva/jwt-go => github.com/dgrijalva/jwt-go/v4 v4.0.0-preview1
 	github.com/gogo/protobuf => github.com/gogo/protobuf v1.3.2
