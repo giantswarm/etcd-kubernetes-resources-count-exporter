@@ -1,6 +1,5 @@
+# pkg:golang/google.golang.org/grpc@v1.26.0
 CVE-2023-32731
-CVE-2021-3127
-CVE-2020-26892
-CVE-2022-29153
-CVE-2023-3978
-CVE-2023-39325
+
+# pkg:golang/google.golang.org/protobuf@v1.32.0
+CVE-2024-24786
