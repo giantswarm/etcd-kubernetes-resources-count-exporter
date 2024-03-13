@@ -46,10 +46,23 @@ events:
 
 priorityClassName: "system-cluster-critical"
 
+# Container resource requests and limits.
+resources:
+  requests:
+    cpu: 100m
+    memory: 100Mi
+  limits:
+    cpu: 100m
+    memory: 100Mi
+
+# Lower and upper bounds for vertical autoscaling.
 verticalPodAutoscaler:
   enabled: true
+  minAllowed:
+    cpu: 100m
+    memory: 100Mi
   maxAllowed:
-    memory: "2Gi"
+    memory: 2Gi
 
 # Add seccomp to pod security context
 podSecurityContext:
