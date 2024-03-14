@@ -157,6 +157,33 @@
                 }
             }
         },
+        "resources": {
+            "type": "object",
+            "properties": {
+                "limits": {
+                    "type": "object",
+                    "properties": {
+                        "cpu": {
+                            "type": "string"
+                        },
+                        "memory": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "requests": {
+                    "type": "object",
+                    "properties": {
+                        "cpu": {
+                            "type": "string"
+                        },
+                        "memory": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "securityContext": {
             "type": "object",
             "properties": {
@@ -182,6 +209,17 @@
                 "maxAllowed": {
                     "type": "object",
                     "properties": {
+                        "memory": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "minAllowed": {
+                    "type": "object",
+                    "properties": {
+                        "cpu": {
+                            "type": "string"
+                        },
                         "memory": {
                             "type": "string"
                         }

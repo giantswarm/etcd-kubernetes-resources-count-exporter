@@ -13,6 +13,9 @@ spec:
     - containerName: {{ .Chart.Name }}
       controlledValues: RequestsAndLimits
       mode: Auto
+      minAllowed:
+        cpu: {{ .Values.verticalPodAutoscaler.minAllowed.cpu }}
+        memory: {{ .Values.verticalPodAutoscaler.minAllowed.memory }}
       maxAllowed:
         memory: "{{ .Values.verticalPodAutoscaler.maxAllowed.memory }}"
   targetRef:
