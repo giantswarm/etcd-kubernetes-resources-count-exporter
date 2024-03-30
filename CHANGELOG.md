@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed 
 
 - Set min VPA settings and adjust CPU and memory resources.
+- Use PodMonitor instead of legacy labels for monitoring.
 
 ## [1.9.0] - 2024-01-18
 
