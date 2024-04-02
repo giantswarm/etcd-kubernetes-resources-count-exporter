@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.0] - 2024-04-01
+
 ### Changed 
 
 - Set min VPA settings and adjust CPU and memory resources.
@@ -137,7 +139,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First release. 
 
-[Unreleased]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.9.0...HEAD
+[Unreleased]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.0...HEAD
+[1.10.0]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.9.0...v1.10.0
 [1.9.0]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.8.0...v1.9.0
 [1.8.0]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.6.0...v1.7.0
