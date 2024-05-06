@@ -1,6 +1,8 @@
 module github.com/giantswarm/etcd-kubernetes-resources-count-exporter
 
-go 1.19
+go 1.21
+
+toolchain go1.22.2
 
 require (
 	github.com/coreos/etcd v3.3.27+incompatible
@@ -91,7 +93,7 @@ require (
 
 replace (
 	github.com/aws/aws-sdk-go v1.27.0 => github.com/aws/aws-sdk-go v1.34.0
-	github.com/coreos/bbolt => go.etcd.io/bbolt v1.3.9
+	github.com/coreos/bbolt => go.etcd.io/bbolt v1.3.10
 	github.com/coreos/etcd => github.com/coreos/etcd v3.3.27+incompatible
 	github.com/dgrijalva/jwt-go => github.com/dgrijalva/jwt-go/v4 v4.0.0-preview1
 	github.com/gogo/protobuf => github.com/gogo/protobuf v1.3.2
