@@ -14,7 +14,6 @@ import (
 	"go.etcd.io/etcd/clientv3"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	jsonserializer "k8s.io/apimachinery/pkg/runtime/serializer/json"
 	"k8s.io/kubectl/pkg/scheme"
 )
 
@@ -134,10 +133,9 @@ func (d *EventsCollector) refreshCache() error {
 	}
 
 	decoder := scheme.Codecs.UniversalDeserializer()
-	encoder := jsonserializer.NewSerializer(jsonserializer.DefaultMetaFactory, scheme.Scheme, scheme.Scheme, true)
 
 	for _, kv := range resp.Kvs {
-		event := d.getEventFromResponse(kv, decoder, encoder)
+		event := d.getEventFromResponse(kv, decoder)
 
 		cachedEventObj := cachedEvent{
 			count:           float64(event.Count),
@@ -174,7 +172,7 @@ func getKey(event cachedEvent) string {
 	return eventKey
 }
 
-func (d *EventsCollector) getEventFromResponse(kv *mvccpb.KeyValue, decoder runtime.Decoder, encoder runtime.Encoder) corev1.Event {
+func (d *EventsCollector) getEventFromResponse(kv *mvccpb.KeyValue, decoder runtime.Decoder) corev1.Event {
 	obj, _, err := decoder.Decode(kv.Value, nil, nil)
 	if err != nil {
 		d.logger.Debugf(context.Background(), "WARN: unable to decode %s: %v\n", kv.Key, err)
