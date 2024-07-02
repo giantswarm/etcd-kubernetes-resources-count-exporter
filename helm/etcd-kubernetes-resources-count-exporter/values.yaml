@@ -74,6 +74,7 @@ securityContext:
   allowPrivilegeEscalation: false
   seccompProfile:
     type: RuntimeDefault
+  readOnlyRootFilesystem: true
 
 kyvernoPolicyExceptions:
   enabled: true
