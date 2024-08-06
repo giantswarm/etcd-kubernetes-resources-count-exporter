@@ -2,7 +2,7 @@ module github.com/giantswarm/etcd-kubernetes-resources-count-exporter
 
 go 1.22.0
 
-toolchain go1.22.5
+toolchain go1.22.6
 
 require (
 	github.com/coreos/etcd v3.3.27+incompatible
