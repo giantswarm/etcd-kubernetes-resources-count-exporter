@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed 
 
 - Set `readOnlyRootFilesystem` to true in the container security context.
+- Update Kyverno `PolicyExceptions` to `v2beta1`.
 
 ## [1.10.0] - 2024-04-01
 
