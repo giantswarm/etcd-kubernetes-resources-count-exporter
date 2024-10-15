@@ -12,7 +12,7 @@ require (
 	github.com/giantswarm/microkit v1.0.1
 	github.com/giantswarm/micrologger v1.1.1
 	github.com/giantswarm/versionbundle v1.1.0
-	github.com/prometheus/client_golang v1.20.4
+	github.com/prometheus/client_golang v1.20.5
 	github.com/spf13/viper v1.19.0
 	go.etcd.io/etcd v3.3.27+incompatible
 	k8s.io/api v0.31.1
