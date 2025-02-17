@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Set `readOnlyRootFilesystem` to true in the container security context.
 - Update Kyverno `PolicyExceptions` to `v2beta1`.
+- Go: Update `go.mod` and `.nancy-ignore`. ([#242](https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/pull/242))
 
 ## [1.10.0] - 2024-04-01
 

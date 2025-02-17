@@ -1,7 +1,0 @@
-# pkg:golang/golang.org/x/net@v0.30.0
-CVE-2024-8421
-CVE-2024-45338
-
-# pkg:golang/google.golang.org/grpc@v1.26.0
-CVE-2023-32731
-
