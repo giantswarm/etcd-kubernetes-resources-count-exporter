@@ -10,8 +10,8 @@ import (
 	"github.com/giantswarm/micrologger"
 	"github.com/giantswarm/versionbundle"
 	"github.com/spf13/viper"
-	"go.etcd.io/etcd/clientv3"
-	"go.etcd.io/etcd/pkg/transport"
+	"go.etcd.io/etcd/client/pkg/v3/transport"
+	clientv3 "go.etcd.io/etcd/client/v3"
 
 	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/flag"
 	"github.com/giantswarm/etcd-kubernetes-resources-count-exporter/pkg/project"
