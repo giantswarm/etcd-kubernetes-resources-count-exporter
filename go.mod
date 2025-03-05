@@ -11,7 +11,7 @@ require (
 	github.com/giantswarm/versionbundle v1.1.0
 	github.com/prometheus/client_golang v1.21.1
 	github.com/spf13/viper v1.19.0
-	go.etcd.io/etcd/api/v3 v3.5.18
+	go.etcd.io/etcd/api/v3 v3.5.19
 	go.etcd.io/etcd/client/pkg/v3 v3.5.18
 	go.etcd.io/etcd/client/v3 v3.5.18
 	k8s.io/api v0.32.2
@@ -60,7 +60,7 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/exp v0.0.0-20250215185904-eff6e970281f // indirect
-	golang.org/x/net v0.35.0 // indirect
+	golang.org/x/net v0.36.0 // indirect
 	golang.org/x/sync v0.11.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/text v0.22.0 // indirect
