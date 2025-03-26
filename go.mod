@@ -10,7 +10,7 @@ require (
 	github.com/giantswarm/micrologger v1.1.2
 	github.com/giantswarm/versionbundle v1.1.0
 	github.com/prometheus/client_golang v1.21.1
-	github.com/spf13/viper v1.20.0
+	github.com/spf13/viper v1.20.1
 	go.etcd.io/etcd/api/v3 v3.5.20
 	go.etcd.io/etcd/client/pkg/v3 v3.5.20
 	go.etcd.io/etcd/client/v3 v3.5.20
