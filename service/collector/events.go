@@ -125,7 +125,7 @@ func (d *EventsCollector) refreshCache() error {
 		return microerror.Mask(err)
 	}
 
-	defer cli.Close()
+	defer cli.Close() //nolint:errcheck
 
 	resp, err := cli.Get(context.Background(), d.eventsPrefix, clientv3.WithPrefix())
 	if err != nil {
