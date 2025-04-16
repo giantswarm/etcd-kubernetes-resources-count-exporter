@@ -107,7 +107,7 @@ func (d *Etcd) refreshCache() error {
 		return microerror.Mask(err)
 	}
 
-	defer cli.Close()
+	defer cli.Close() //nolint:errcheck
 
 	resp, err := cli.Get(context.Background(), "/", clientv3.WithPrefix(), clientv3.WithKeysOnly())
 	if err != nil {
