@@ -190,6 +190,9 @@
                 "allowPrivilegeEscalation": {
                     "type": "boolean"
                 },
+                "readOnlyRootFilesystem": {
+                    "type": "boolean"
+                },
                 "seccompProfile": {
                     "type": "object",
                     "properties": {
