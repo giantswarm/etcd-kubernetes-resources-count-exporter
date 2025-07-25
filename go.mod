@@ -11,7 +11,7 @@ require (
 	github.com/giantswarm/versionbundle v1.1.0
 	github.com/prometheus/client_golang v1.22.0
 	github.com/spf13/viper v1.20.1
-	go.etcd.io/etcd/api/v3 v3.6.3
+	go.etcd.io/etcd/api/v3 v3.6.4
 	go.etcd.io/etcd/client/pkg/v3 v3.6.4
 	go.etcd.io/etcd/client/v3 v3.6.3
 	k8s.io/api v0.33.3
