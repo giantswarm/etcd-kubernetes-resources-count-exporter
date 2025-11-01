@@ -5,7 +5,7 @@ var (
 	gitSHA             = "n/a"
 	name        string = "etcd-kubernetes-resources-count-exporter"
 	source      string = "https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter"
-	version            = "1.10.10"
+	version            = "1.10.11-dev"
 )
 
 func Description() string {
