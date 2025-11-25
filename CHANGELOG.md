@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.11] - 2025-11-25
+
 ### Changed
 
 - Go: Update dependencies.
@@ -207,7 +209,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First release. 
 
-[Unreleased]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.10...HEAD
+[Unreleased]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.11...HEAD
+[1.10.11]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.10...v1.10.11
 [1.10.10]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.9...v1.10.10
 [1.10.9]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.8...v1.10.9
 [1.10.8]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.7...v1.10.8
