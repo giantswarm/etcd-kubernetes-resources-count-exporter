@@ -19,8 +19,6 @@ Common labels
 {{- define "etcd-kubernetes-resources-count-exporter.labels" -}}
 app: {{ include "etcd-kubernetes-resources-count-exporter.name" . | quote }}
 {{ include "etcd-kubernetes-resources-count-exporter.selectorLabels" . }}
-application.giantswarm.io/branch: {{ .Values.project.branch | quote }}
-application.giantswarm.io/commit: {{ .Values.project.commit | quote }}
 application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
@@ -33,4 +31,15 @@ Selector labels
 {{- define "etcd-kubernetes-resources-count-exporter.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "etcd-kubernetes-resources-count-exporter.name" . | quote }}
 app.kubernetes.io/instance: {{ .Release.Name | quote }}
+{{- end -}}
+
+{{/*
+image.tag helper - use .Values.image.tag if set, otherwise .Chart.AppVersion
+*/}}
+{{- define "image.tag" -}}
+{{- if .Values.image.tag -}}
+{{- .Values.image.tag -}}
+{{- else -}}
+{{- .Chart.AppVersion -}}
+{{- end -}}
 {{- end -}}
