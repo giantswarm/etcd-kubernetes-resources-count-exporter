@@ -1,7 +1,7 @@
+version: 2.1
+
 orbs:
   architect: giantswarm/architect@6.12.0
-
-version: 2.1
 
 workflows:
   build:
@@ -14,7 +14,7 @@ workflows:
             tags:
               only: /^v.*/
 
-      # build and push docker image to quay
+      # build and push docker image to registries
       - architect/push-to-registries:
           context: architect
           name: push-to-registries
@@ -29,18 +29,17 @@ workflows:
                 - main
                 - master
 
-      # build and push docker image to aliyun
+      # build and push helm chart to control-plane catalog
       - architect/push-to-app-catalog:
           context: architect
+          executor: app-build-suite
           name: push-exporter-to-control-plane-app-catalog
           app_catalog: control-plane-catalog
           app_catalog_test: control-plane-test-catalog
           chart: etcd-kubernetes-resources-count-exporter
-          # Make sure docker image is successfully built.
           requires:
             - push-to-registries
           filters:
-            # Trigger the job also on git tag.
             tags:
               only: /^v.*/
             branches:
@@ -51,15 +50,14 @@ workflows:
       # build and push helm chart to default app catalog
       - architect/push-to-app-catalog:
           context: architect
+          executor: app-build-suite
           name: push-exporter-to-default-app-catalog
           app_catalog: default-catalog
           app_catalog_test: default-test-catalog
           chart: etcd-kubernetes-resources-count-exporter
-          # Make sure docker image is successfully built.
           requires:
             - push-to-registries
           filters:
-            # Trigger the job also on git tag.
             tags:
               only: /^v.*/
             branches:
