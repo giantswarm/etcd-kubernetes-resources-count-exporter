@@ -6,9 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.13] - 2026-02-04
+
 ### Changed
 
 - Migrate to App Build Suite (ABS) for Helm chart building.
+- Go: Update dependencies.
 
 ## [1.10.12] - 2025-12-19
 
@@ -219,7 +222,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First release. 
 
-[Unreleased]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.12...HEAD
+[Unreleased]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.13...HEAD
+[1.10.13]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.12...v1.10.13
 [1.10.12]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.11...v1.10.12
 [1.10.11]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.10...v1.10.11
 [1.10.10]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.9...v1.10.10
