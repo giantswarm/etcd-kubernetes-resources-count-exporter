@@ -1,9 +1,6 @@
-project:
-  branch: "[[ .Branch ]]"
-  commit: "[[ .SHA ]]"
 image:
   name: "giantswarm/etcd-kubernetes-resources-count-exporter"
-  tag: "[[ .Version ]]"
+  tag: ""
 pod:
   user:
     id: 0

@@ -1,0 +1,9 @@
+checks:
+  exclude:
+    # Requires host network for etcd communication
+    - host-network
+    # Runs as root to access etcd certs
+    - run-as-non-root
+    # Mounts host etcd certs directory
+    - sensitive-host-mounts
+
