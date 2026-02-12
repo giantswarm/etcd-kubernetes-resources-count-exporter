@@ -39,19 +39,6 @@
                 }
             }
         },
-        "global": {
-            "type": "object",
-            "properties": {
-                "podSecurityStandards": {
-                    "type": "object",
-                    "properties": {
-                        "enforced": {
-                            "type": "boolean"
-                        }
-                    }
-                }
-            }
-        },
         "image": {
             "type": "object",
             "properties": {
@@ -132,14 +119,6 @@
                             "type": "string"
                         },
                         "namespace": {
-                            "type": "string"
-                        }
-                    }
-                },
-                "psp": {
-                    "type": "object",
-                    "properties": {
-                        "name": {
                             "type": "string"
                         }
                     }
