@@ -21,8 +21,6 @@ resource:
   default:
     name: '{{ .Release.Name | replace "." "-" | trunc 47 }}'
     namespace: "kube-system"
-  psp:
-    name: '{{ .Release.Name | replace "." "-" | trunc 47 }}-psp'
 
 registry:
   domain: gsoci.azurecr.io
@@ -76,7 +74,3 @@ securityContext:
 kyvernoPolicyExceptions:
   enabled: true
   namespace: kube-system
-
-global:
-  podSecurityStandards:
-    enforced: false
