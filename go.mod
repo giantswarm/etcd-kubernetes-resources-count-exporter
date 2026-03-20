@@ -12,7 +12,7 @@ require (
 	github.com/prometheus/client_golang v1.23.2
 	github.com/spf13/viper v1.21.0
 	go.etcd.io/etcd/api/v3 v3.6.9
-	go.etcd.io/etcd/client/pkg/v3 v3.6.8
+	go.etcd.io/etcd/client/pkg/v3 v3.6.9
 	go.etcd.io/etcd/client/v3 v3.6.8
 	k8s.io/api v0.35.3
 	k8s.io/apimachinery v0.35.3
