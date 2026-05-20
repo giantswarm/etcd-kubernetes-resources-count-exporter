@@ -1,13 +1,14 @@
 version: 2.1
 
 orbs:
-  architect: giantswarm/architect@8.1.0
+  architect: giantswarm/architect@8.2.2
 
 workflows:
   build:
     jobs:
       # build operator
       - architect/go-build:
+          context: architect
           name: go-build
           binary: etcd-kubernetes-resources-count-exporter
           filters:
