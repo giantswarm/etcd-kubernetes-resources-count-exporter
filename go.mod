@@ -75,3 +75,15 @@ require (
 	sigs.k8s.io/structured-merge-diff/v6 v6.3.2 // indirect
 	sigs.k8s.io/yaml v1.6.0 // indirect
 )
+
+replace github.com/golang-jwt/jwt/v4 v4.0.0 => github.com/golang-jwt/jwt/v4 v4.5.2
+
+replace github.com/nats-io/nats-server/v2 v2.8.4 => github.com/nats-io/nats-server/v2 v2.14.2
+
+replace github.com/sirupsen/logrus v1.8.1 => github.com/sirupsen/logrus v1.9.4
+
+replace github.com/yuin/goldmark v1.2.1 => github.com/yuin/goldmark v1.8.2
+
+replace golang.org/x/crypto v0.49.0 => golang.org/x/crypto v0.53.0
+
+replace golang.org/x/sys v0.42.0 => golang.org/x/sys v0.46.0
