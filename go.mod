@@ -11,7 +11,7 @@ require (
 	github.com/giantswarm/versionbundle v1.2.0
 	github.com/prometheus/client_golang v1.23.2
 	github.com/spf13/viper v1.21.0
-	go.etcd.io/etcd/api/v3 v3.6.13
+	go.etcd.io/etcd/api/v3 v3.7.0
 	go.etcd.io/etcd/client/pkg/v3 v3.6.13
 	go.etcd.io/etcd/client/v3 v3.6.13
 	k8s.io/api v0.36.2
@@ -32,7 +32,6 @@ require (
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-stack/stack v1.8.1 // indirect
 	github.com/go-viper/mapstructure/v2 v2.5.0 // indirect
-	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.29.0 // indirect
