@@ -74,3 +74,7 @@ require (
 	sigs.k8s.io/structured-merge-diff/v6 v6.4.0 // indirect
 	sigs.k8s.io/yaml v1.6.0 // indirect
 )
+
+replace github.com/sirupsen/logrus v1.8.1 => github.com/sirupsen/logrus v1.9.4
+
+replace go.opentelemetry.io/otel v1.43.0 => go.opentelemetry.io/otel v1.44.0
