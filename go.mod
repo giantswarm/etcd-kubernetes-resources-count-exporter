@@ -78,3 +78,11 @@ require (
 replace github.com/sirupsen/logrus v1.8.1 => github.com/sirupsen/logrus v1.9.4
 
 replace go.opentelemetry.io/otel v1.43.0 => go.opentelemetry.io/otel v1.44.0
+
+replace github.com/nats-io/nats-server/v2 v2.8.4 => github.com/nats-io/nats-server/v2 v2.14.6
+
+replace github.com/rabbitmq/amqp091-go v1.2.0 => github.com/rabbitmq/amqp091-go v1.14.0
+
+replace golang.org/x/crypto v0.54.0 => golang.org/x/crypto v0.55.0
+
+replace golang.org/x/mod v0.37.0 => golang.org/x/mod v0.40.0
