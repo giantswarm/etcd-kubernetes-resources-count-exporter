@@ -1,8 +1,5 @@
-# pkg:golang/github.com/golang-jwt/jwt/v4@v4.0.0
 CVE-2024-51744 until=2026-11-10
 CVE-2025-30204 until=2026-11-10
-
-# pkg:golang/github.com/nats-io/nats-server/v2@v2.8.4
 CVE-2022-42708 until=2026-11-10
 CVE-2022-42709 until=2026-11-10
 CVE-2023-47090 until=2026-11-10
@@ -31,8 +28,6 @@ CVE-2026-58250 until=2026-11-10
 CVE-2026-58251 until=2026-11-10
 CVE-2026-58252 until=2026-11-10
 CVE-2026-58253 until=2026-11-10
-
-# pkg:golang/github.com/rabbitmq/amqp091-go@v1.2.0
 CVE-2026-107386 until=2026-11-10
 CVE-2026-77403 until=2026-11-10
 CVE-2026-77404 until=2026-11-10
@@ -45,9 +40,8 @@ CVE-2026-77410 until=2026-11-10
 CVE-2026-77411 until=2026-11-10
 CVE-2026-77412 until=2026-11-10
 CVE-2026-79921 until=2026-11-10
-
-# pkg:golang/github.com/sirupsen/logrus@v1.8.1
 CVE-2025-65637 until=2026-11-10
-
-# pkg:golang/google.golang.org/grpc@v1.84.0
 CVE-2026-84445 until=2026-11-10
+CVE-2026-116586 until=2026-11-27 # github.com/go-jose/go-jose/v4@v4.1.4 since=2026-10-28
+CVE-2026-116585 until=2026-11-27 # github.com/go-jose/go-jose/v4@v4.1.4 since=2026-10-28
+CVE-2026-115804 until=2026-11-27 # github.com/hashicorp/consul/api@v1.14.0 since=2026-10-28
