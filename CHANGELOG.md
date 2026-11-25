@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add a `policies.kyverno.io/v1` PolicyException next to each `kyverno.io/v2` one, so the exceptions also apply to the CEL (ValidatingPolicy) versions of the policies. The CEL ones are always rendered; set `kyvernoPolicyExceptions.legacy.enabled: false` to stop rendering the legacy ones.
+- Label the `kyverno.io/v2` PolicyExceptions with `policy.giantswarm.io/migrated-to-cel: "true"`, to mark them as migrated to CEL.
+
 ### Fixed
 
 - Fix ARM64 images.
@@ -14,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Go: Update dependencies.
+- `kyvernoPolicyExceptions.enabled: false` now also turns off the `<release>-exceptions` PolicyException.
 
 ## [1.10.14] - 2026-02-16
 
@@ -100,7 +106,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.10.1] - 2025-02-17
 
-### Changed 
+### Changed
 
 - Set `readOnlyRootFilesystem` to true in the container security context.
 - Update Kyverno `PolicyExceptions` to `v2beta1`.
@@ -108,7 +114,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.10.0] - 2024-04-01
 
-### Changed 
+### Changed
 
 - Set min VPA settings and adjust CPU and memory resources.
 - Use PodMonitor instead of legacy labels for monitoring.
@@ -237,7 +243,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- First release. 
+- First release.
 
 [Unreleased]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.14...HEAD
 [1.10.14]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.13...v1.10.14
