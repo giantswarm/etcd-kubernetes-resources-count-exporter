@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.15] - 2026-11-26
+
 ### Added
 
 - Add a `policies.kyverno.io/v1` PolicyException next to each `kyverno.io/v2` one, so the exceptions also apply to the CEL (ValidatingPolicy) versions of the policies. The CEL ones are always rendered; set `kyvernoPolicyExceptions.legacy.enabled: false` to stop rendering the legacy ones.
@@ -245,7 +247,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First release.
 
-[Unreleased]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.14...HEAD
+[Unreleased]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.15...HEAD
+[1.10.15]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.14...v1.10.15
 [1.10.14]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.13...v1.10.14
 [1.10.13]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.12...v1.10.13
 [1.10.12]: https://github.com/giantswarm/etcd-kubernetes-resources-count-exporter/compare/v1.10.11...v1.10.12
